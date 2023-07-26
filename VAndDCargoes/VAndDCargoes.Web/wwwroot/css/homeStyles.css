@@ -1,0 +1,50 @@
+﻿html {
+    box-sizing: border-box;
+}
+
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+img {
+    width: 100%;
+    height: auto;
+    padding: 5px;
+}
+
+
+.slick-dots {
+    text-align: center;
+    margin: 0 0 10px 0;
+}
+
+:hover {
+    background-color: black;
+}
+
+/* Custom Arrow */
+.prev {
+    color: #999;
+    position: absolute;
+    top: 38%;
+    left: -2em;
+    font-size: 1.5em;
+    cursor: pointer;
+    color: black;
+}
+
+.next {
+    color: #999;
+    position: absolute;
+    top: 38%;
+    right: -2em;
+    font-size: 1.5em;
+    cursor: pointer;
+    color: black;
+}
+
+@media screen and (max-width: 800px) {
+    .next {
+        display: none !important;
+    }
+}

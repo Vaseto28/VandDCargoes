@@ -33,6 +33,14 @@ public class Truck
 
     public int FuelCapacity { get; set; }
 
+    [Required]
+    public DateTime CreatedOn { get; set; }
+
+    [Required]
+    public Guid CreatorId { get; set; }
+
+    public virtual ApplicationUser Creator { get; set; } = null!;
+
     public Guid? DriverId { get; set; }
 
     public virtual Driver? Driver { get; set; }

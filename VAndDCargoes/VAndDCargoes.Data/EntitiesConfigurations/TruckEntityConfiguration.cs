@@ -19,6 +19,12 @@ public class TruckEntityConfiguration : IEntityTypeConfiguration<Truck>
             .WithMany(x => x.Trucks)
             .HasForeignKey(x => x.TraillerId)
             .OnDelete(DeleteBehavior.Restrict);
+
+        builder
+            .HasOne(x => x.Creator)
+            .WithMany(x => x.Trucks)
+            .HasForeignKey(x => x.CreatorId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }
 

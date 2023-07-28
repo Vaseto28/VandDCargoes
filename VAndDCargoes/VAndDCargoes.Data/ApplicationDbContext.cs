@@ -21,6 +21,11 @@ public class VAndDCargoesDbContext : IdentityDbContext<ApplicationUser, Identity
 
     public DbSet<Driver> Drivers { get; set; } = null!;
 
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        base.OnConfiguring(optionsBuilder.UseLazyLoadingProxies());
+    }
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         Assembly assembly = Assembly.GetAssembly(typeof(VAndDCargoesDbContext)) ?? Assembly.GetExecutingAssembly();

@@ -25,6 +25,10 @@ public class TruckEntityConfiguration : IEntityTypeConfiguration<Truck>
             .WithMany(x => x.Trucks)
             .HasForeignKey(x => x.CreatorId)
             .OnDelete(DeleteBehavior.Restrict);
+
+        builder
+            .Property(x => x.CreatedOn)
+            .HasDefaultValue(DateTime.Parse("01/01/2023"));
     }
 }
 

@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Contracts\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Contracts\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\VAndDCargoes.Data\VAndDCargoes.Data.csproj" />
+    <ProjectReference Include="..\VAndDCargoes.Data.Models\VAndDCargoes.Data.Models.csproj" />
+    <ProjectReference Include="..\VAndDCargoes.Web.Models\VAndDCargoes.Web.ViewModels.csproj" />
+    <ProjectReference Include="..\VAndDCargoes.Common\VAndDCargoes.Common.csproj" />
+  </ItemGroup>
+</Project>

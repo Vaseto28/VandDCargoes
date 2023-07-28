@@ -14,8 +14,8 @@ public static class EntitiesValidations
 
     public static class Trailer
     {
-        public const int CapacityMinLength = 1;
-        public const int CapacityMaxLength = 41;
+        public const int CapacityMinValue = 1;
+        public const int CapacityMaxValue = 41;
     }
 
     public static class Cargo

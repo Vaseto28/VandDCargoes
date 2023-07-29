@@ -13,6 +13,16 @@ public class TrailerEntityConfiguration : IEntityTypeConfiguration<Trailer>
             .WithMany(x => x.Trailers)
             .HasForeignKey(x => x.CargoId)
             .OnDelete(DeleteBehavior.Restrict);
+
+        builder
+            .HasOne(x => x.Creator)
+            .WithMany(x => x.Trailers)
+            .HasForeignKey(x => x.CreatorId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder
+            .Property(x => x.CreatorId)
+            .HasDefaultValue(Guid.Parse("3d7a05d7-8255-4936-9f32-36a07dc4af55"));
     }
 }
 

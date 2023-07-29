@@ -31,6 +31,11 @@ public class Cargo
     [Required]
     public CargoPhysicalState PhysicalState { get; set; }
 
+    [Required]
+    public Guid CreatorId { get; set; }
+
+    public virtual ApplicationUser Creator { get; set; } = null!;
+
     public virtual ICollection<Trailer> Trailers { get; set; }
 }
 

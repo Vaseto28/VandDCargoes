@@ -25,6 +25,11 @@ public class Trailer
     [Required]
     public TrailerDemention Dementions { get; set; }
 
+    [Required]
+    public Guid CreatorId { get; set; }
+
+    public virtual ApplicationUser Creator { get; set; } = null!;
+
     public Guid? CargoId { get; set; }
 
     public virtual Cargo? Cargo { get; set; }

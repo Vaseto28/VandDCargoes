@@ -6,5 +6,7 @@ public static class GeneralConstants
 
 	public const int DefaultPage = 1;
 	public const int DefaultTrucksPerPage = 5;
+	public const int DefaultTrailersPerPage = 5;
+	public const int DefaultCargoesPerPage = 5;
 }
 

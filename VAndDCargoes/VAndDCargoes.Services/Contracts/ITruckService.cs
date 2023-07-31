@@ -8,10 +8,10 @@ public interface ITruckService
 
     Task<IEnumerable<TruckAllViewModel>> GetAllTrucksAsync(TruckQueryAllModel model);
 
-    Task<TruckDetailsViewModel?> GetTruckDetailsByIdAsync(string id);
+    Task<TruckDetailsViewModel?> GetTruckDetailsByIdAsync(string truckId);
 
-    Task<TruckEditViewModel?> GetTruckByIdForEditAsync(string id);
+    Task<TruckEditViewModel?> GetTruckByIdForEditAsync(string truckId);
 
-    Task EditTruckAsync(TruckEditViewModel model, string id);
+    Task EditTruckAsync(TruckEditViewModel model, string userId);
 }
 

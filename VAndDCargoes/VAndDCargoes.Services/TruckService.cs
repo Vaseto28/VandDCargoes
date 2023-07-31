@@ -34,10 +34,10 @@ public class TruckService : ITruckService
         await this.dbCtx.SaveChangesAsync();
     }
 
-    public async Task EditTruckAsync(TruckEditViewModel model, string id)
+    public async Task EditTruckAsync(TruckEditViewModel model, string truckId)
     {
         Truck? truck = await this.dbCtx.Trucks
-            .FirstOrDefaultAsync(x => x.Id.ToString() == id);
+            .FirstOrDefaultAsync(x => x.Id.ToString() == truckId);
 
         if (truck != null)
         {
@@ -80,7 +80,8 @@ public class TruckService : ITruckService
             TrucksOrdering.MakeDescending => trucksQuery
                 .OrderByDescending(x => x.Make),
             TrucksOrdering.FreeToDriveFirst => trucksQuery
-                .OrderBy(x => x.DriverId != null)
+                .OrderBy(x => x.DriverId != null),
+            _ => throw new NotImplementedException()
         };
 
         IEnumerable<TruckAllViewModel> allTrucksModel = await trucksQuery
@@ -93,17 +94,17 @@ public class TruckService : ITruckService
                 Model = x.Model,
                 FuelCapacity = x.FuelCapacity,
                 TravelledDistance = x.TraveledDistance,
-                CreatorEmail = x.Creator.Email.ToLower()
+                //CreatorEmail = x.Creator.Email.ToLower()
             })
             .ToArrayAsync();
 
         return allTrucksModel;
     }
 
-    public async Task<TruckEditViewModel?> GetTruckByIdForEditAsync(string id)
+    public async Task<TruckEditViewModel?> GetTruckByIdForEditAsync(string truckId)
     {
         Truck? truck = await this.dbCtx.Trucks
-            .FirstOrDefaultAsync(x => x.Id.ToString().Equals(id));
+            .FirstOrDefaultAsync(x => x.Id.ToString().Equals(truckId));
 
         if (truck != null)
         {
@@ -124,10 +125,10 @@ public class TruckService : ITruckService
         return null;
     }
 
-    public async Task<TruckDetailsViewModel?> GetTruckDetailsByIdAsync(string id)
+    public async Task<TruckDetailsViewModel?> GetTruckDetailsByIdAsync(string truckId)
     {
         Truck? truck = await this.dbCtx.Trucks
-            .FirstOrDefaultAsync(x => x.Id.ToString() == id);
+            .FirstOrDefaultAsync(x => x.Id.ToString() == truckId);
 
         if (truck != null)
         {

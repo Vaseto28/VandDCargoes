@@ -31,9 +31,9 @@ public class DriverService : IDriverService
         await this.dbContext.SaveChangesAsync();
     }
 
-    public async Task<bool> IsTheUserAlreadyDriver(string id)
+    public async Task<bool> IsTheUserAlreadyDriver(string userId)
     {
-        if (await this.dbContext.Drivers.AnyAsync(x => x.UserId.ToString().Equals(id)))
+        if (await this.dbContext.Drivers.AnyAsync(x => x.UserId.ToString().Equals(userId)))
         {
             return true;
         }

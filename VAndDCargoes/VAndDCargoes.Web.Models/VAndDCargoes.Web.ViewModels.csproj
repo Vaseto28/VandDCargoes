@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Driver\" />
+    <None Remove="Truck\" />
+    <None Remove="Truck\Enumerations\" />
+    <None Remove="Trailer\" />
+    <None Remove="Trailer\Enumerations\" />
+    <None Remove="Cargo\" />
+    <None Remove="Cargo\Enumerations\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Driver\" />
+    <Folder Include="Truck\" />
+    <Folder Include="Truck\Enumerations\" />
+    <Folder Include="Trailer\" />
+    <Folder Include="Trailer\Enumerations\" />
+    <Folder Include="Cargo\" />
+    <Folder Include="Cargo\Enumerations\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\VAndDCargoes.Common\VAndDCargoes.Common.csproj" />
+  </ItemGroup>
+</Project>

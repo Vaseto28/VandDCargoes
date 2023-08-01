@@ -10,12 +10,20 @@ public static class EntitiesValidations
         public const int ModelMaxLength = 20;
         public const int RegistrationNumberMinLength = 6;
         public const int RegistrationNumberMaxLength = 15;
+        public const int ConditionLowerBound = 0;
+        public const int ConditionUpperBound = 4;
     }
 
     public static class Trailer
     {
         public const int CapacityMinValue = 1;
         public const int CapacityMaxValue = 41;
+        public const int CategoryLowerBound = 0;
+        public const int CategoryUpperBound = 5;
+        public const int ConditionLowerBound = 0;
+        public const int ConditionUpperBound = 4;
+        public const int DementionLowerBound = 0;
+        public const int DementionUpperBound = 3;
     }
 
     public static class Cargo
@@ -26,6 +34,10 @@ public static class EntitiesValidations
         public const int DescriptionMaxLength = 200;
         public const int WeightMinLength = 1;
         public const int WeightMaxLength = 40;
+        public const int CategoryLowerBound = 0;
+        public const int CategoryUpperBound = 6;
+        public const int PhysicalStateLowerBound = 0;
+        public const int PhysicalStateUpperBound = 2;
     }
 
     public static class Driver

@@ -5,6 +5,7 @@ using VAndDCargoes.Data.Models.Enumerations;
 using VAndDCargoes.Services.Contracts;
 using VAndDCargoes.Web.ViewModels.Truck;
 using VAndDCargoes.Web.ViewModels.Truck.Enumerations;
+using static VAndDCargoes.Common.EntitiesValidations.Truck;
 
 namespace VAndDCargoes.Services;
 
@@ -34,10 +35,22 @@ public class TruckService : ITruckService
         await this.dbCtx.SaveChangesAsync();
     }
 
+    public async Task DeletebyIdAsync(string id)
+    {
+        Truck? truck = await this.dbCtx.Trucks
+            .FindAsync(Guid.Parse(id));
+
+        if (truck != null)
+        {
+            this.dbCtx.Trucks.Remove(truck);
+            await this.dbCtx.SaveChangesAsync();
+        }
+    }
+
     public async Task EditTruckAsync(TruckEditViewModel model, string truckId)
     {
         Truck? truck = await this.dbCtx.Trucks
-            .FirstOrDefaultAsync(x => x.Id.ToString() == truckId);
+            .FindAsync(Guid.Parse(truckId));
 
         if (truck != null)
         {
@@ -104,7 +117,7 @@ public class TruckService : ITruckService
     public async Task<TruckEditViewModel?> GetTruckByIdForEditAsync(string truckId)
     {
         Truck? truck = await this.dbCtx.Trucks
-            .FirstOrDefaultAsync(x => x.Id.ToString().Equals(truckId));
+            .FindAsync(Guid.Parse(truckId));
 
         if (truck != null)
         {
@@ -128,7 +141,7 @@ public class TruckService : ITruckService
     public async Task<TruckDetailsViewModel?> GetTruckDetailsByIdAsync(string truckId)
     {
         Truck? truck = await this.dbCtx.Trucks
-            .FirstOrDefaultAsync(x => x.Id.ToString() == truckId);
+            .FindAsync(Guid.Parse(truckId));
 
         if (truck != null)
         {
@@ -174,6 +187,11 @@ public class TruckService : ITruckService
         }
 
         return null;
+    }
+
+    public bool IsConditionValid(int conditionNum)
+    {
+        return conditionNum < ConditionLowerBound || conditionNum > ConditionUpperBound;
     }
 }
 

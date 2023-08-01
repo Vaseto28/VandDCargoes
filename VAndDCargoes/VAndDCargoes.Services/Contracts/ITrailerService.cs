@@ -12,6 +12,14 @@ public interface ITrailerService
 
     Task<TrailerEditViewModel?> GetTrailerForEditByIdAsync(string trailerId);
 
-    Task EditTruckAsync(TrailerEditViewModel model, string userId);
+    Task EditTrailerAsync(TrailerEditViewModel model, string userId);
+
+    Task DeleteTrailerByIdAsync(string id);
+
+    bool IsCategoryValid(int categoryNum);
+
+    bool IsConditionValid(int conditionNum);
+
+    bool IsDementionsValid(int dementionsNum);
 }
 

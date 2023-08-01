@@ -13,5 +13,9 @@ public interface ITruckService
     Task<TruckEditViewModel?> GetTruckByIdForEditAsync(string truckId);
 
     Task EditTruckAsync(TruckEditViewModel model, string userId);
+
+    Task DeletebyIdAsync(string id);
+
+    bool IsConditionValid(int conditionNum);
 }
 

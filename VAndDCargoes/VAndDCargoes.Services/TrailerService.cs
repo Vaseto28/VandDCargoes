@@ -1,11 +1,11 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using VAndDCargoes.Data;
 using VAndDCargoes.Data.Models;
 using VAndDCargoes.Data.Models.Enumerations;
 using VAndDCargoes.Services.Contracts;
 using VAndDCargoes.Web.ViewModels.Trailer;
 using VAndDCargoes.Web.ViewModels.Trailer.Enumerations;
+using static VAndDCargoes.Common.EntitiesValidations.Trailer;
 
 namespace VAndDCargoes.Services;
 
@@ -33,10 +33,22 @@ public class TrailerService : ITrailerService
         await this.dbCtx.SaveChangesAsync();
     }
 
-    public async Task EditTruckAsync(TrailerEditViewModel model, string trailerId)
+    public async Task DeleteTrailerByIdAsync(string id)
+    {
+        Trailer? trailer = await this.dbCtx.Trailers
+            .FindAsync(Guid.Parse(id));
+
+        if (trailer != null)
+        {
+            this.dbCtx.Trailers.Remove(trailer);
+            await this.dbCtx.SaveChangesAsync();
+        }
+    }
+
+    public async Task EditTrailerAsync(TrailerEditViewModel model, string trailerId)
     {
         Trailer? trailerToEdit = await this.dbCtx.Trailers
-            .FirstOrDefaultAsync(x => x.Id.ToString().Equals(trailerId));
+            .FindAsync(Guid.Parse(trailerId));
 
         if (trailerToEdit != null)
         {
@@ -95,7 +107,7 @@ public class TrailerService : ITrailerService
     public async Task<TrailerDetailsViewModel?> GetTrailerDetailsByIdAsync(string trailerId)
     {
         Trailer? trailer = await this.dbCtx.Trailers
-            .FirstOrDefaultAsync(x => x.Id.ToString().Equals(trailerId));
+            .FindAsync(Guid.Parse(trailerId));
 
         if (trailer != null)
         {
@@ -181,7 +193,7 @@ public class TrailerService : ITrailerService
     public async Task<TrailerEditViewModel?> GetTrailerForEditByIdAsync(string trailerId)
     {
         Trailer? trailer = await this.dbCtx.Trailers
-            .FirstOrDefaultAsync(x => x.Id.ToString().Equals(trailerId));
+            .FindAsync(Guid.Parse(trailerId));
 
         if (trailer != null)
         {
@@ -197,6 +209,21 @@ public class TrailerService : ITrailerService
         }
 
         return null;
+    }
+
+    public bool IsCategoryValid(int categoryNum)
+    {
+        return categoryNum < CategoryLowerBound || categoryNum > CategoryUpperBound;
+    }
+
+    public bool IsConditionValid(int conditionNum)
+    {
+        return conditionNum < ConditionLowerBound || conditionNum > ConditionUpperBound;
+    }
+
+    public bool IsDementionsValid(int dementionsNum)
+    {
+        return dementionsNum < DementionLowerBound || dementionsNum > DementionUpperBound;
     }
 }
 

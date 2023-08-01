@@ -3,11 +3,8 @@ using static VAndDCargoes.Common.EntitiesValidations.Cargo;
 
 namespace VAndDCargoes.Web.ViewModels.Cargo;
 
-public class CargoAllViewModel
+public class CargoEditViewModel
 {
-	[Required]
-	public string Id { get; set; } = null!;
-
 	[Required]
 	[StringLength(NameMaxLength, MinimumLength = NameMinLength)]
 	public string Name { get; set; } = null!;
@@ -19,11 +16,8 @@ public class CargoAllViewModel
 	[Range(WeightMinLength, WeightMaxLength)]
 	public int Weight { get; set; }
 
-	[Required]
-	public string Category { get; set; } = null!;
+	public int Category { get; set; }
 
-	[Required]
-	public string PhysicalState { get; set; } = null!;
+	public int PhysicalState { get; set; }
 }
-
 

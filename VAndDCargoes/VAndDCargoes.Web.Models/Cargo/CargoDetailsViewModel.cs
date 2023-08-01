@@ -3,7 +3,7 @@ using static VAndDCargoes.Common.EntitiesValidations.Cargo;
 
 namespace VAndDCargoes.Web.ViewModels.Cargo;
 
-public class CargoAllViewModel
+public class CargoDetailsViewModel
 {
 	[Required]
 	public string Id { get; set; } = null!;
@@ -24,6 +24,11 @@ public class CargoAllViewModel
 
 	[Required]
 	public string PhysicalState { get; set; } = null!;
-}
 
+	[Required]
+	public string CreatorName { get; set; } = null!;
+
+	[Required]
+	public string CreatorEmail { get; set; } = null!;
+}
 

@@ -1,0 +1,71 @@
+﻿@{
+    ViewData["Title"] = "V&D Cargoes's trailers";
+}
+
+@model TrailerQueryAllViewModel
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/styles.css">
+</head>
+<body>
+    <header>
+        <h1 align="center">@ViewData["Title"]</h1>
+    </header>
+
+    <form>
+        <div class="form-group col-md-30 d-flex justify-content-between">
+            <div style="width: 40%" class="form-group">
+                <label asp-for="TrailersPerPage">Trailers per page:</label>
+                <select asp-for="TrailersPerPage" class="form-control">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                </select>
+            </div>
+
+            <div style="width: 40%" class="form-group">
+                <div class="form-group">
+                    <label asp-for="TrailersOrdering">Order trailers by:</label>
+                    <select asp-for="TrailersOrdering" class="form-control">
+                        <option value="0">By category</option>
+                        <option value="1">By condition (Ascending)</option>
+                        <option value="2">By condition (Descending)</option>
+                        <option value="3">By dementions (Ascending)</option>
+                        <option value="4">By dementions (Descending)</option>
+                        <option value="5">By capacity (Ascending)</option>
+                        <option value="6">By capacity (Descending)</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <center>
+            <div class="col-md-3">
+                <div class="form-group mt-4 p-2">
+                    <input type="submit" value="Apply filters" class="btn btn-primary" />
+                </div>
+            </div>
+        </center>
+    </form>
+    <br />
+
+    @if (!this.Model.Trailers.Any())
+    {
+        <p>There are no available trailers in V&D Cargoes LTD at the moment.</p>
+    }
+    else
+    {
+        <div class="row">
+            @foreach (var trailer in Model.Trailers)
+            {
+                <partial name="_TrailerPartial" model="trailer" />
+            }
+        </div>
+    }
+</body>
+</html>

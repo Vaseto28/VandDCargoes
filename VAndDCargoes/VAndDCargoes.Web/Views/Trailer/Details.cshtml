@@ -1,0 +1,38 @@
+﻿@{
+    ViewBag.Title = "Trailer details";
+}
+
+@model TrailerDetailsViewModel
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<div class="row">
+    <div class="card w-100">
+        <div class="card-body">
+            <h3 class="card-title text-center">@Model.CreatorEmail.Split('@')[0]'s trailer</h3>
+            <p class="mb-2"><span class="fw-bold">Capacity: </span>@Model.Capacity</p>
+            <p class="mb-2"><span class="fw-bold">Category: </span>@Model.Category</p>
+            <p class="mb-2"><span class="fw-bold">Condition: </span>@Model.Condition</p>
+            <p class="mb-2"><span class="fw-bold">Dementions: </span>@Model.Dementions</p>
+            <p class="mb-2"><span class="fw-bold">Cargo: </span>@Model.Cargo</p>
+        </div>
+
+        <a asp-controller="Trailer" asp-action="All" class="btn btn-warning mb-2 w-100 p-3 fw-bold">All trailers</a>
+
+        @if (User?.Identity?.Name?.ToLower() == Model.CreatorEmail.ToLower())
+        {
+            <a asp-controller="Trailer" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning mb-2 w-100 p-3 fw-bold" style="background-color: darkorange">Edit</a>
+            <a asp-controller="Trailer" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-warning mb-2 w-100 p-3 fw-bold" style="background-color: red">Delete</a>
+        }
+        else
+        {
+            <a asp-controller="Trailer" asp-action="GetToDrive" class="btn btn-warning mb-2 w-100 p-3 fw-bold" style="background-color: green">Get the trailer</a>
+        }
+
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

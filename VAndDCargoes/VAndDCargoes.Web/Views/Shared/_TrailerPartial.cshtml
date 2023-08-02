@@ -1,0 +1,16 @@
+﻿@model TrailerAllViewModel
+
+<div class="col-md-4">
+    <div class="card mb-3">
+        <div class="card-body text-center">
+            <h2>V&D Cargo's trailer</h2>
+            <h6>Capacity: <b>@Model.Capacity</b> tones</h6>
+            <h6>Category: <b>@Model.Category</b></h6>
+            <br />
+            <a asp-controller="Trailer" asp-action="Details" asp-route-id="@Model.Id"
+               class="btn btn-success" style="background-color: blue">Details</a>
+            <a asp-controller="Trailer" asp-action="GetToDrive" asp-route-id="@Model.Id"
+               class="btn btn-success" style="background-color: green">Get the trailer</a>
+        </div>
+    </div>
+</div>

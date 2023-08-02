@@ -1,0 +1,42 @@
+﻿@{
+    ViewBag.Title = "Truck details";
+}
+
+@model TruckDetailsViewModel
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<div class="row">
+    <div class="card w-100">
+        <div class="card-body">
+            <h3 class="card-title text-center">@Model.Make</h3>
+            <p class="mb-2"><span class="fw-bold">Model: </span>@Model.Model</p>
+            <p class="mb-2"><span class="fw-bold">Registration number / VIN: </span>@Model.RegistrationNumber</p>
+            <p class="mb-2"><span class="fw-bold">Travelled distance (km): </span>@Model.TravelledDistance</p>
+            <p class="mb-2"><span class="fw-bold">Fuel capacity (litres): </span>@Model.FuelCapacity</p>
+            <p class="mb-2"><span class="fw-bold">Condition: </span>@Model.Condition</p>
+            <p class="mb-2"><span class="fw-bold">Created on: </span>@Model.CreatedOn</p>
+            <p class="mb-2"><span class="fw-bold">Created by: </span>@Model.CreatorName</p>
+            <p class="mb-2"><span class="fw-bold">Drived by: </span>@Model.DriverName</p>
+            <p class="mb-2"><span class="fw-bold">Trailer: </span>@Model.Trailer</p>
+        </div>
+
+        <a asp-controller="Truck" asp-action="All" class="btn btn-warning mb-2 w-100 p-3 fw-bold">All trucks</a>
+
+        @if (User?.Identity?.Name?.ToLower() == Model.CreatorEmail)
+        {
+            <a asp-controller="Truck" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning mb-2 w-100 p-3 fw-bold" style="background-color: darkorange">Edit</a>
+            <a asp-controller="Truck" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-warning mb-2 w-100 p-3 fw-bold" style="background-color: red">Delete</a>
+        }
+        else
+        {
+            <a asp-controller="Truck" asp-action="Drive" class="btn btn-warning mb-2 w-100 p-3 fw-bold" style="background-color: green">Drive this truck</a>
+        }
+
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

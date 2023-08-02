@@ -36,15 +36,22 @@
   <ItemGroup>
     <None Remove="Views\Driver\" />
     <None Remove="Views\Truck\" />
+    <None Remove="Migrations\" />
+    <None Remove="Views\Trailer\" />
+    <None Remove="Views\Cargo\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Driver\" />
     <Folder Include="wwwroot\js\" />
     <Folder Include="wwwroot\lib\bootstrap\dist\css\" />
     <Folder Include="Views\Truck\" />
+    <Folder Include="Migrations\" />
+    <Folder Include="Views\Trailer\" />
+    <Folder Include="Views\Cargo\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\js\" />
     <Content Remove="wwwroot\lib\bootstrap\dist\css\" />
+    <Content Remove="wwwroot\favicon.ico" />
   </ItemGroup>
 </Project>

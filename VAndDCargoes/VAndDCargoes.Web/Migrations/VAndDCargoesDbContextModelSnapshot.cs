@@ -232,6 +232,11 @@ namespace VAndDCargoes.Web.Migrations
                     b.Property<int>("Category")
                         .HasColumnType("int");
 
+                    b.Property<Guid>("CreatorId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValue(new Guid("3d7a05d7-8255-4936-9f32-36a07dc4af55"));
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(200)
@@ -249,6 +254,8 @@ namespace VAndDCargoes.Web.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CreatorId");
 
                     b.ToTable("Cargoes");
                 });
@@ -310,12 +317,19 @@ namespace VAndDCargoes.Web.Migrations
                     b.Property<int>("Condition")
                         .HasColumnType("int");
 
+                    b.Property<Guid>("CreatorId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValue(new Guid("3d7a05d7-8255-4936-9f32-36a07dc4af55"));
+
                     b.Property<int>("Dementions")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CargoId");
+
+                    b.HasIndex("CreatorId");
 
                     b.ToTable("Trailers");
                 });
@@ -426,6 +440,17 @@ namespace VAndDCargoes.Web.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("VAndDCargoes.Data.Models.Cargo", b =>
+                {
+                    b.HasOne("VAndDCargoes.Data.Models.ApplicationUser", "Creator")
+                        .WithMany("Cargoes")
+                        .HasForeignKey("CreatorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Creator");
+                });
+
             modelBuilder.Entity("VAndDCargoes.Data.Models.Driver", b =>
                 {
                     b.HasOne("VAndDCargoes.Data.Models.ApplicationUser", "User")
@@ -444,7 +469,15 @@ namespace VAndDCargoes.Web.Migrations
                         .HasForeignKey("CargoId")
                         .OnDelete(DeleteBehavior.Restrict);
 
+                    b.HasOne("VAndDCargoes.Data.Models.ApplicationUser", "Creator")
+                        .WithMany("Trailers")
+                        .HasForeignKey("CreatorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.Navigation("Cargo");
+
+                    b.Navigation("Creator");
                 });
 
             modelBuilder.Entity("VAndDCargoes.Data.Models.Truck", b =>
@@ -474,7 +507,11 @@ namespace VAndDCargoes.Web.Migrations
 
             modelBuilder.Entity("VAndDCargoes.Data.Models.ApplicationUser", b =>
                 {
+                    b.Navigation("Cargoes");
+
                     b.Navigation("Drivers");
+
+                    b.Navigation("Trailers");
 
                     b.Navigation("Trucks");
                 });

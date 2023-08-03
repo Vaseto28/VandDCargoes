@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VAndDCargoes.Data;
 
@@ -11,9 +12,10 @@ using VAndDCargoes.Data;
 namespace VAndDCargoes.Web.Migrations
 {
     [DbContext(typeof(VAndDCargoesDbContext))]
-    partial class VAndDCargoesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230802154849_AddedImageUrlsAndUsernameToThApplicationUser")]
+    partial class AddedImageUrlsAndUsernameToThApplicationUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

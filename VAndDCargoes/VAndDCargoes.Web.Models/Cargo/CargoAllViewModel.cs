@@ -24,6 +24,9 @@ public class CargoAllViewModel
 
 	[Required]
 	public string PhysicalState { get; set; } = null!;
+
+	[Required]
+	public string ImageUrl { get; set; } = null!;
 }
 
 

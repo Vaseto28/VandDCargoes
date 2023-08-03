@@ -19,5 +19,10 @@ public class CargoEditViewModel
 	public int Category { get; set; }
 
 	public int PhysicalState { get; set; }
+
+	[Required]
+	[Url]
+	[Display(Name = "Image url / (link)")]
+	public string ImageUrl { get; set; } = null!;
 }
 

@@ -34,5 +34,10 @@ public class TruckAddViewModel
 	[DataType(DataType.Date)]
 	[Display(Name = "Produced on")]
 	public string CreatedOn { get; set; } = null!;
+
+	[Required]
+	[Url]
+	[Display(Name = "Image url / (link)")]
+	public string ImageUrl { get; set; } = null!;
 }
 

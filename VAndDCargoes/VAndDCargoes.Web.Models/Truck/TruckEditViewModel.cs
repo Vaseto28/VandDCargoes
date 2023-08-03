@@ -31,7 +31,13 @@ public class TruckEditViewModel
     public int FuelCapacity { get; set; }
 
     [Required]
+    [DataType(DataType.Date)]
     [Display(Name = "Produced on (MM/dd/yyyy)")]
     public string CreatedOn { get; set; } = null!;
+
+    [Required]
+    [Url]
+    [Display(Name = "Image url / (link)")]
+    public string ImageUrl { get; set; } = null!;
 }
 

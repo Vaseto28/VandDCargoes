@@ -21,5 +21,8 @@ public class TruckAllViewModel
 
 	[Range(0, int.MaxValue)]
 	public int TravelledDistance { get; set; }
+
+	[Required]
+	public string ImageUrl { get; set; } = null!;
 }
 

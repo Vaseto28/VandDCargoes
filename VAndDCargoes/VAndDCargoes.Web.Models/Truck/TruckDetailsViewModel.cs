@@ -49,5 +49,8 @@ public class TruckDetailsViewModel
 
 	[Required]
 	public string CreatorEmail { get; set; } = null!;
+
+	[Required]
+	public string ImageUrl { get; set; } = null!;
 }
 

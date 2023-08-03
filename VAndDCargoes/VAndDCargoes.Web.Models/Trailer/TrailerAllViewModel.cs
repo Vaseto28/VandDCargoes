@@ -21,5 +21,8 @@ public class TrailerAllViewModel
 	public string Dementions { get; set; } = null!;
 
 	public string? Cargo { get; set; }
+
+	[Required]
+	public string ImageUrl { get; set; } = null!;
 }
 

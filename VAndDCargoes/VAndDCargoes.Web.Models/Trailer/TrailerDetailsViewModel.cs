@@ -24,5 +24,8 @@ public class TrailerDetailsViewModel
 	[Required]
 	[Display(Name = "Trailer created by: ")]
 	public string CreatorEmail { get; set; } = null!;
+
+	[Required]
+	public string ImageUrl { get; set; } = null!;
 }
 

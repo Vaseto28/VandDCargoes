@@ -17,5 +17,10 @@ public class TrailerEditViewModel
 
     [Display(Name = "Trailer dementions")]
     public int Dementions { get; set; }
+
+    [Required]
+    [Url]
+    [Display(Name = "Image url / (link)")]
+    public string ImageUrl { get; set; } = null!;
 }
 

@@ -23,6 +23,10 @@ public class TrailerEntityConfiguration : IEntityTypeConfiguration<Trailer>
         builder
             .Property(x => x.CreatorId)
             .HasDefaultValue(Guid.Parse("3d7a05d7-8255-4936-9f32-36a07dc4af55"));
+
+        builder
+            .Property(x => x.ImageUrl)
+            .HasDefaultValue("https://cpmr-islands.org/wp-content/uploads/sites/4/2019/07/test.png");
     }
 }
 

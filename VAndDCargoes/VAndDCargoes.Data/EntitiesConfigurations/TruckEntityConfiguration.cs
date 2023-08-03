@@ -29,6 +29,10 @@ public class TruckEntityConfiguration : IEntityTypeConfiguration<Truck>
         builder
             .Property(x => x.CreatedOn)
             .HasDefaultValue(DateTime.Parse("01/01/2023"));
+
+        builder
+            .Property(x => x.ImageUrl)
+            .HasDefaultValue("https://cpmr-islands.org/wp-content/uploads/sites/4/2019/07/test.png");
     }
 }
 

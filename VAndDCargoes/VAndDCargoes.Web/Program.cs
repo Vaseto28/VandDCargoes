@@ -6,7 +6,7 @@ using static VAndDCargoes.Web.Infrastructure.Extentions.WebApplicationBuilderExt
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-string connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+string connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string cannot be null!");
 
 builder.Services.AddDbContext<VAndDCargoesDbContext>(options =>
     options.UseSqlServer(connectionString, x => x.MigrationsAssembly("VAndDCargoes.Web")));

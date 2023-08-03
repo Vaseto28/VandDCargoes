@@ -25,7 +25,8 @@ public class CargoService : ICargoService
             Description = model.Description,
             Weight = model.Weight,
             Category = (CargoCategory)model.Category,
-            PhysicalState = (CargoPhysicalState)model.PhysicalState
+            PhysicalState = (CargoPhysicalState)model.PhysicalState,
+            ImageUrl = model.ImageUrl
         };
 
         await this.dbCtx.Cargoes.AddAsync(cargo);
@@ -56,6 +57,7 @@ public class CargoService : ICargoService
             cargo.Weight = model.Weight;
             cargo.Category = (CargoCategory)model.Category;
             cargo.PhysicalState = (CargoPhysicalState)model.PhysicalState;
+            cargo.ImageUrl = model.ImageUrl;
         }
 
         await this.dbCtx.SaveChangesAsync();
@@ -102,7 +104,8 @@ public class CargoService : ICargoService
                 Description = x.Description,
                 Weight = x.Weight,
                 Category = x.Category.ToString(),
-                PhysicalState = x.PhysicalState.ToString()
+                PhysicalState = x.PhysicalState.ToString(),
+                ImageUrl = x.ImageUrl
             })
             .ToArrayAsync();
 
@@ -116,42 +119,17 @@ public class CargoService : ICargoService
 
         if (cargo != null)
         {
-            string category = string.Empty;
-            switch ((int)cargo.Category)
-            {
-                case 0:
-                    category = "Food";
-                    break;
-                case 1:
-                    category = "Livestock";
-                    break;
-                case 2:
-                    category = "Chemicals";
-                    break;
-                case 3:
-                    category = "Flamebal substances";
-                    break;
-                case 4:
-                    category = "Cars";
-                    break;
-                case 5:
-                    category = "Equipment or machinery";
-                    break;
-                case 6:
-                    category = "Dry bulk cargo";
-                    break;
-            }
-
             CargoDetailsViewModel cargoDetailsModel = new CargoDetailsViewModel()
             {
                 Id = cargo.Id.ToString(),
                 Name = cargo.Name,
                 Description = cargo.Description,
                 Weight = cargo.Weight,
-                Category = category,
+                Category = cargo.Category.ToString(),
                 PhysicalState = cargo.PhysicalState.ToString(),
                 CreatorName = cargo.Creator.UserName,
-                CreatorEmail = cargo.Creator.Email.ToLower()
+                CreatorEmail = cargo.Creator.Email.ToLower(),
+                ImageUrl = cargo.ImageUrl
             };
 
             return cargoDetailsModel;
@@ -173,7 +151,8 @@ public class CargoService : ICargoService
                 Description = cargo.Description,
                 Weight = cargo.Weight,
                 Category = (int)cargo.Category,
-                PhysicalState = (int)cargo.PhysicalState
+                PhysicalState = (int)cargo.PhysicalState,
+                ImageUrl = cargo.ImageUrl
             };
 
             return cargoEditModel;

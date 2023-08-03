@@ -20,4 +20,9 @@ public class CargoAddViewModel
 
 	[Display(Name = "Physical state")]
 	public int PhysicalState { get; set; }
+
+	[Required]
+	[Url]
+	[Display(Name = "Image url (link)")]
+	public string ImageUrl { get; set; } = null!;
 }

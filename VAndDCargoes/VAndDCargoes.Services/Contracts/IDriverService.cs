@@ -4,7 +4,7 @@ namespace VAndDCargoes.Services.Contracts;
 
 public interface IDriverService
 {
-    Task<bool> IsTheUserAlreadyDriver(string userId);
+    Task<bool> IsTheUseAlreadyDriverByIdAsync(string userId);
 
     Task BecomeDriverAsync(BecomeDriverViewModel model, string userId);
 }

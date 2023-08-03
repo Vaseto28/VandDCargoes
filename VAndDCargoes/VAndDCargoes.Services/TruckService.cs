@@ -28,7 +28,8 @@ public class TruckService : ITruckService
             FuelCapacity = model.FuelCapacity,
             TraveledDistance = model.TravelledDistance,
             Condition = (TruckCondition)model.Condition,
-            CreatorId = Guid.Parse(userId)
+            CreatorId = Guid.Parse(userId),
+            ImageUrl = model.ImageUrl
         };
 
         await this.dbCtx.Trucks.AddAsync(truck);
@@ -61,6 +62,7 @@ public class TruckService : ITruckService
             truck.FuelCapacity = model.FuelCapacity;
             truck.Condition = (TruckCondition)model.Condition;
             truck.CreatedOn = DateTime.Parse(model.CreatedOn);
+            truck.ImageUrl = model.ImageUrl;
         }
 
         await this.dbCtx.SaveChangesAsync();
@@ -107,7 +109,7 @@ public class TruckService : ITruckService
                 Model = x.Model,
                 FuelCapacity = x.FuelCapacity,
                 TravelledDistance = x.TraveledDistance,
-                //CreatorEmail = x.Creator.Email.ToLower()
+                ImageUrl = x.ImageUrl
             })
             .ToArrayAsync();
 
@@ -129,7 +131,8 @@ public class TruckService : ITruckService
                 TravelledDistance = truck.TraveledDistance,
                 FuelCapacity = truck.FuelCapacity,
                 Condition = (int)truck.Condition,
-                CreatedOn = truck.CreatedOn.ToString("dd/MM/yyyy")
+                CreatedOn = truck.CreatedOn.ToString("dd/MM/yyyy"),
+                ImageUrl = truck.ImageUrl
             };
 
             return truckEdit;
@@ -145,26 +148,6 @@ public class TruckService : ITruckService
 
         if (truck != null)
         {
-            string condition = string.Empty;
-            switch ((int)truck.Condition)
-            {
-                case 0:
-                    condition = "Excellent";
-                    break;
-                case 1:
-                    condition = "Very good";
-                    break;
-                case 2:
-                    condition = "Good";
-                    break;
-                case 3:
-                    condition = "Bad";
-                    break;
-                case 4:
-                    condition = "Need of service";
-                    break;
-            }
-
             TruckDetailsViewModel? truckDetails = new TruckDetailsViewModel()
             {
                 Id = truck.Id.ToString(),
@@ -173,14 +156,15 @@ public class TruckService : ITruckService
                 RegistrationNumber = truck.RegistrationNumber,
                 TravelledDistance = truck.TraveledDistance,
                 FuelCapacity = truck.FuelCapacity,
-                Condition = condition,
+                Condition = truck.Condition.ToString(),
                 CreatedOn = truck.CreatedOn.ToString("dd/MM/yyyy"),
                 CreatorName = truck.Creator.UserName,
                 DriverName = truck.Driver != null ?
                     $"{truck.Driver.FirstName} {truck.Driver.SecondName} {truck.Driver.LastName}" :
                     $"This truck hasn't a driver yet!",
                 Trailer = truck.Trailer != null ? "Yes" : "No",
-                CreatorEmail = truck.Creator.Email.ToLower()
+                CreatorEmail = truck.Creator.Email.ToLower(),
+                ImageUrl = truck.ImageUrl
             };
 
             return truckDetails;

@@ -1,4 +1,5 @@
-﻿using VAndDCargoes.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using VAndDCargoes.Data;
 using VAndDCargoes.Data.Models;
 using VAndDCargoes.Services.Contracts;
 using VAndDCargoes.Web.ViewModels.Driver;
@@ -30,9 +31,9 @@ public class DriverService : IDriverService
         await this.dbContext.SaveChangesAsync();
     }
 
-    public async Task<bool> IsTheUserAlreadyDriver(string userId)
+    public async Task<bool> IsTheUseAlreadyDriverByIdAsync(string userId)
     {
-        if (await this.dbContext.Drivers.FindAsync(Guid.Parse(userId)) != null)
+        if (await this.dbContext.Drivers.FirstOrDefaultAsync(x => x.UserId.ToString() == userId) != null)
         {
             return true;
         }

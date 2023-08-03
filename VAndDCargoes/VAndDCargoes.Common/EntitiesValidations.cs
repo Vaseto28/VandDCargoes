@@ -51,7 +51,13 @@ public static class EntitiesValidations
         public const int PhoneNumberMinLength = 4;
         public const int PhoneNumberMaxLength = 15;
         public const int EmailMinLength = 8;
-        public const int EmailMaxLength = 100;
+        public const int EmailMaxLength = 40;
+    }
+
+    public static class User
+    {
+        public const int UsernameMinLength = 4;
+        public const int UsernameMaxLength = 20;
     }
 }
 

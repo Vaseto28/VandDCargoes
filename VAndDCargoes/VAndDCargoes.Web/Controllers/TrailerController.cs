@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using VAndDCargoes.Services.Contracts;
 using VAndDCargoes.Web.ViewModels.Trailer;
 
@@ -13,6 +14,7 @@ public class TrailerController : BaseController
         this.trailerService = trailerService;
     }
 
+    //[Authorize(Roles = "Administrator")]
     [HttpGet]
     public IActionResult Add()
     {
@@ -110,7 +112,7 @@ public class TrailerController : BaseController
             return View(model);
         }
 
-        return RedirectToAction("Details", "Trailer");
+        return RedirectToAction("All", "Trailer");
     }
 
     public async Task<IActionResult> Delete(string id)

@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using VAndDCargoes.Services.Contracts;
 using VAndDCargoes.Web.ViewModels.Cargo;
-using static VAndDCargoes.Common.EntitiesValidations.Cargo;
 
 namespace VAndDCargoes.Web.Controllers;
 
@@ -14,6 +14,7 @@ public class CargoController : BaseController
         this.cargoService = cargoService;
     }
 
+    //[Authorize(Roles = "Administrator")]
     [HttpGet]
     public IActionResult Add()
     {
@@ -118,7 +119,7 @@ public class CargoController : BaseController
             return View(model);
         }
 
-        return RedirectToAction("Details", "Cargo");
+        return RedirectToAction("All", "Cargo");
     }
 
     public async Task<IActionResult> Delete(string id)

@@ -18,7 +18,7 @@ namespace VAndDCargoes.Web.Controllers
 		{
 			string id = this.GetUserId();
 
-			if (await this.driverService.IsTheUserAlreadyDriver(id))
+			if (await this.driverService.IsTheUseAlreadyDriverByIdAsync(id))
 			{
 				return RedirectToAction("All", "Truck");
 			}

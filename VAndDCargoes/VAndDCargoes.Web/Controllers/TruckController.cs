@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using VAndDCargoes.Services.Contracts;
 using VAndDCargoes.Web.ViewModels.Truck;
 
@@ -13,6 +14,7 @@ public class TruckController : BaseController
         this.truckService = truckService;
     }
 
+    //[Authorize(Roles = "Administrator")]
     [HttpGet]
     public IActionResult Add()
     {
@@ -22,38 +24,38 @@ public class TruckController : BaseController
     }
 
     [HttpPost]
-    public async Task<IActionResult> Add(TruckAddViewModel model)
+    public async Task<IActionResult> Add(TruckAddViewModel addViewModel)
     {
         string userId = this.GetUserId();
 
         DateTime createdOn;
 
-        if (!DateTime.TryParse(model.CreatedOn, out createdOn))
+        if (!DateTime.TryParse(addViewModel.CreatedOn, out createdOn))
         {
             this.ModelState.AddModelError("Create truck", "Invalid date format! All dates must follow this format: dd/MM/yyyy");
 
-            return View(model);
+            return View(addViewModel);
         }
 
-        if (this.truckService.IsConditionValid(model.Condition))
+        if (this.truckService.IsConditionValid(addViewModel.Condition))
         {
             this.ModelState.AddModelError("Create truck", "Invalid condition!");
         }
 
         if (!this.ModelState.IsValid)
         {
-            return View(model);
+            return View(addViewModel);
         }
 
         try
         {
-            await this.truckService.AddTruckAsync(model, userId);
+            await this.truckService.AddTruckAsync(addViewModel, userId);
         }
         catch (Exception)
         {
             this.ModelState.AddModelError("Create truck", "Invalid data!");
 
-            return View(model);
+            return View(addViewModel);
         }
 
         return RedirectToAction("All", "Truck");
@@ -88,43 +90,54 @@ public class TruckController : BaseController
             return RedirectToAction("All", "Truck");
         }
 
+        //try
+        //{
+        //    DateTime.Parse(truckEdit.CreatedOn);
+        //}
+        //catch (Exception ex)
+        //{
+
+        //}
+
+        //truckEdit.CreatedOn = DateTime.Parse(truckEdit.CreatedOn).ToString("dd/MM/yyyy");
+
         return View(truckEdit);
     }
 
     [HttpPost]
-    public async Task<IActionResult> Edit(TruckEditViewModel model, string id)
+    public async Task<IActionResult> Edit(TruckEditViewModel editViewModel, string id)
     {
         DateTime createdOn;
 
-        if (!DateTime.TryParse(model.CreatedOn, out createdOn))
+        if (!DateTime.TryParse(editViewModel.CreatedOn, out createdOn))
         {
             this.ModelState.AddModelError("Edit truck", "Invalid date format! All dates must follow this format: dd/MM/yyyy");
 
-            return View(model);
+            return View(editViewModel);
         }
 
-        if (this.truckService.IsConditionValid(model.Condition))
+        if (this.truckService.IsConditionValid(editViewModel.Condition))
         {
             this.ModelState.AddModelError("Edit truck", "Invalid condition!");
         }
 
         if (!this.ModelState.IsValid)
         {
-            return View(model);
+            return View(editViewModel);
         }
 
         try
         {
-            await this.truckService.EditTruckAsync(model, id);
+            await this.truckService.EditTruckAsync(editViewModel, id);
         }
         catch (Exception)
         {
             this.ModelState.AddModelError("Edit truck", "Invalid data!");
 
-            return View(model);
+            return View(editViewModel);
         }
 
-        return RedirectToAction("Details", "Truck");
+        return RedirectToAction("All", "Truck");
     }
 
     public async Task<IActionResult> Delete(string id)

@@ -17,6 +17,9 @@ public class Trailer
     public int Capacity { get; set; }
 
     [Required]
+    public string ImageUrl { get; set; } = null!;
+
+    [Required]
     public TrailerCondition Condition { get; set; }
 
     [Required]

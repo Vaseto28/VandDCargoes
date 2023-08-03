@@ -27,6 +27,9 @@ public class Truck
     public string RegistrationNumber { get; set; } = null!;
 
     [Required]
+    public string ImageUrl { get; set; } = null!;
+
+    [Required]
     public TruckCondition Condition { get; set; }
 
     public int TraveledDistance { get; set; }

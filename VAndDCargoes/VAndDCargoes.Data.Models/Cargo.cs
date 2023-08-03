@@ -26,6 +26,9 @@ public class Cargo
     public int Weight { get; set; }
 
     [Required]
+    public string ImageUrl { get; set; } = null!;
+
+    [Required]
     public CargoCategory Category { get; set; }
 
     [Required]

@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using VAndDCargoes.Services.Contracts;
 using VAndDCargoes.Web.ViewModels.Truck;
 
@@ -89,17 +88,6 @@ public class TruckController : BaseController
         {
             return RedirectToAction("All", "Truck");
         }
-
-        //try
-        //{
-        //    DateTime.Parse(truckEdit.CreatedOn);
-        //}
-        //catch (Exception ex)
-        //{
-
-        //}
-
-        //truckEdit.CreatedOn = DateTime.Parse(truckEdit.CreatedOn).ToString("dd/MM/yyyy");
 
         return View(truckEdit);
     }

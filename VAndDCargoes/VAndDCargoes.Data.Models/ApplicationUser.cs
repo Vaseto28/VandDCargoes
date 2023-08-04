@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Identity;
-using static VAndDCargoes.Common.EntitiesValidations.User;
+﻿using Microsoft.AspNetCore.Identity;
 
 namespace VAndDCargoes.Data.Models;
 
@@ -14,10 +12,6 @@ public class ApplicationUser : IdentityUser<Guid>
         this.Trailers = new HashSet<Trailer>();
         this.Cargoes = new HashSet<Cargo>();
     }
-
-    [Required]
-    [MaxLength(UsernameMaxLength)]
-    public string Username { get; set; } = null!;
 
     public virtual ICollection<Driver> Drivers { get; set; }
 

@@ -58,6 +58,8 @@ public static class EntitiesValidations
     {
         public const int UsernameMinLength = 4;
         public const int UsernameMaxLength = 20;
+        public const int PasswordMinLength = 8;
+        public const int PasswordMaxLength = 100;
     }
 }
 

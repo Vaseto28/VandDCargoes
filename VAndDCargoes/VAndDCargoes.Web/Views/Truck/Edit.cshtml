@@ -43,22 +43,23 @@
         </div>
         <div class="mb-3">
             <label asp-for="@Model.CreatedOn" class="form-label-add-edit"></label>
-            <input asp-for="@Model.CreatedOn" class="form-control" aria-required="true" value="@DateTime.Parse(Model.CreatedOn).ToString("dd/MM/yyyy")"/>
+            <input asp-for="@Model.CreatedOn" class="form-control" aria-required="true" value="@DateTime.ParseExact(Model.CreatedOn, "MM/dd/yyyy", default)" />
             <span asp-validation-for="@Model.CreatedOn" class="text-danger"></span>
         </div>
         <div class="mb-3">
-            <label asp-for="@Model.Condition"></label>
-            <br />
-            <label>Excellent</label>
-            <input style="margin-right: 15px" asp-for="@Model.Condition" type="radio" value="0" />
-            <label>Very good</label>
-            <input style="margin-right: 15px" asp-for="@Model.Condition" type="radio" value="1" />
-            <label>Good</label>
-            <input style="margin-right: 15px" asp-for="@Model.Condition" type="radio" value="2" />
-            <label>Bad</label>
-            <input style="margin-right: 15px" asp-for="@Model.Condition" type="radio" value="3" />
-            <label>Need of service</label>
-            <input style="margin-right: 15px" asp-for="@Model.Condition" type="radio" value="4" />
+            <label asp-for="@Model.ImageUrl" class="form-label-add-edit"></label>
+            <input asp-for="@Model.ImageUrl" class="form-control" aria-required="true" />
+            <span asp-validation-for="@Model.ImageUrl" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label>Truck condition</label>
+            <select asp-for="@Model.Condition" class="form-control" aria-required="true">
+                <option value="0">Excellent</option>
+                <option value="1">Very good</option>
+                <option value="2">Good</option>
+                <option value="3">Bad</option>
+                <option value="4">Need of service</option>
+            </select>
         </div>
         <div class="mb-3">
             <input class="btn btn-warning mb-2 w-100 p-3 fw-bold" type="submit" value="Edit" />

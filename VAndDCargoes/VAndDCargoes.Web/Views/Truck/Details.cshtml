@@ -1,30 +1,59 @@
-﻿@{
-    ViewBag.Title = "Truck details";
+﻿@model TruckDetailsViewModel
+
+@{
+    ViewData["Title"] = "Truck details";
+
+    switch (Model.Condition)
+    {
+        case "Excellent":
+            Model.Condition = "Excellent";
+            break;
+        case "VeryGood":
+            Model.Condition = "Very good";
+            break;
+        case "Good":
+            Model.Condition = "Good";
+            break;
+        case "Bad":
+            Model.Condition = "Bad";
+            break;
+        case "NeedOfService":
+            Model.Condition = "Need of service";
+            break;
+    }
 }
 
-@model TruckDetailsViewModel
-
-<h2 class="text-center">@ViewBag.Title</h2>
+<h2 class="text-center">@ViewData["Title"]</h2>
 <hr />
 
 <div class="row">
     <div class="card w-100">
         <div class="card-body">
             <h3 class="card-title text-center">@Model.Make</h3>
-            <p class="mb-2"><span class="fw-bold">Model: </span>@Model.Model</p>
-            <p class="mb-2"><span class="fw-bold">Registration number / VIN: </span>@Model.RegistrationNumber</p>
-            <p class="mb-2"><span class="fw-bold">Travelled distance (km): </span>@Model.TravelledDistance</p>
-            <p class="mb-2"><span class="fw-bold">Fuel capacity (litres): </span>@Model.FuelCapacity</p>
-            <p class="mb-2"><span class="fw-bold">Condition: </span>@Model.Condition</p>
-            <p class="mb-2"><span class="fw-bold">Created on: </span>@Model.CreatedOn</p>
-            <p class="mb-2"><span class="fw-bold">Created by: </span>@Model.CreatorName</p>
-            <p class="mb-2"><span class="fw-bold">Drived by: </span>@Model.DriverName</p>
-            <p class="mb-2"><span class="fw-bold">Trailer: </span>@Model.Trailer</p>
+
+            <table>
+                <tr>
+                    <td style="text-align: justify; width: 50%">
+                        <p class="mb-2"><span class="fw-bold">Model: </span>@Model.Model</p>
+                        <p class="mb-2"><span class="fw-bold">Registration number / VIN: </span>@Model.RegistrationNumber</p>
+                        <p class="mb-2"><span class="fw-bold">Travelled distance (km): </span>@Model.TravelledDistance</p>
+                        <p class="mb-2"><span class="fw-bold">Fuel capacity (litres): </span>@Model.FuelCapacity</p>
+                        <p class="mb-2"><span class="fw-bold">Condition: </span>@Model.Condition</p>
+                        <p class="mb-2"><span class="fw-bold">Created on: </span>@Model.CreatedOn</p>
+                        <p class="mb-2"><span class="fw-bold">Created by: </span>@Model.CreatorName</p>
+                        <p class="mb-2"><span class="fw-bold">Drived by: </span>@Model.DriverName</p>
+                        <p class="mb-2"><span class="fw-bold">Trailer: </span>@Model.Trailer</p>
+                    </td>
+                    <td style="text-align: right; width: 50%">
+                        <img src="@Model.ImageUrl" style="width: 50%; height: 50%" />
+                    </td>
+                </tr>
+            </table>
         </div>
 
         <a asp-controller="Truck" asp-action="All" class="btn btn-warning mb-2 w-100 p-3 fw-bold">All trucks</a>
 
-        @if (User?.Identity?.Name?.ToLower() == Model.CreatorEmail)
+        @if (this.User.Claims.ToList()[2].Value.ToLower() == Model.CreatorEmail)
         {
             <a asp-controller="Truck" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning mb-2 w-100 p-3 fw-bold" style="background-color: darkorange">Edit</a>
             <a asp-controller="Truck" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-warning mb-2 w-100 p-3 fw-bold" style="background-color: red">Delete</a>

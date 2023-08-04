@@ -270,7 +270,7 @@ namespace VAndDCargoes.Web.Migrations
 
                     b.HasIndex("CreatorId");
 
-                    b.ToTable("Cargoes");
+                    b.ToTable("Cargoes", (string)null);
                 });
 
             modelBuilder.Entity("VAndDCargoes.Data.Models.Driver", b =>
@@ -309,7 +309,7 @@ namespace VAndDCargoes.Web.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Drivers");
+                    b.ToTable("Drivers", (string)null);
                 });
 
             modelBuilder.Entity("VAndDCargoes.Data.Models.Trailer", b =>
@@ -350,7 +350,7 @@ namespace VAndDCargoes.Web.Migrations
 
                     b.HasIndex("CreatorId");
 
-                    b.ToTable("Trailers");
+                    b.ToTable("Trailers", (string)null);
                 });
 
             modelBuilder.Entity("VAndDCargoes.Data.Models.Truck", b =>
@@ -411,7 +411,7 @@ namespace VAndDCargoes.Web.Migrations
 
                     b.HasIndex("TraillerId");
 
-                    b.ToTable("Trucks");
+                    b.ToTable("Trucks", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>

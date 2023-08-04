@@ -39,6 +39,7 @@
     <None Remove="Migrations\" />
     <None Remove="Views\Trailer\" />
     <None Remove="Views\Cargo\" />
+    <None Remove="Views\User\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Driver\" />
@@ -48,6 +49,7 @@
     <Folder Include="Migrations\" />
     <Folder Include="Views\Trailer\" />
     <Folder Include="Views\Cargo\" />
+    <Folder Include="Views\User\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\js\" />

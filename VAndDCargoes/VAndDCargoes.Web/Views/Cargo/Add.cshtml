@@ -31,38 +31,31 @@
             <input asp-for="@Model.Weight" class="form-control" aria-required="true" />
             <span asp-validation-for="@Model.Weight" class="text-danger"></span>
         </div>
+        <div class="mb-3">
+            <label asp-for="@Model.ImageUrl" class="form-label-add-edit"></label>
+            <input asp-for="@Model.ImageUrl" class="form-control" aria-required="true" />
+            <span asp-validation-for="@Model.ImageUrl" class="text-danger"></span>
+        </div>
         <div class="row">
-            <div align="justify" class="mb-3" style="width: 44%">
+            <div align="justify" class="mb-3" style="width: 50%">
                 <label asp-for="@Model.PhysicalState"></label>
-                <br />
-                <div class="col">
-                    <label>Hard</label>
-                    <input style="margin-right: 15px" asp-for="@Model.PhysicalState" type="radio" value="0" />
-                    <label>Liquid</label>
-                    <input style="margin-right: 15px" asp-for="@Model.PhysicalState" type="radio" value="1" />
-                    <label>Gas</label>
-                    <input style="margin-right: 15px" asp-for="@Model.PhysicalState" type="radio" value="2" />
-                </div>
+                <select asp-for="@Model.PhysicalState" class="form-control" aria-required="true">
+                    <option value="0">Hard</option>
+                    <option value="1">Liquid</option>
+                    <option value="2">Gas</option>
+                </select>
             </div>
-            <div align="justify" class="mb-3" style="width: 53%">
+            <div align="justify" class="mb-3" style="width: 50%">
                 <label asp-for="@Model.Category"></label>
-                <br />
-                <div class="col">
-                    <label>Food</label>
-                    <input style="margin-right: 15px" asp-for="@Model.Category" type="radio" value="0" />
-                    <label>Livestock</label>
-                    <input style="margin-right: 15px" asp-for="@Model.Category" type="radio" value="1" />
-                    <label>Chemicals</label>
-                    <input style="margin-right: 15px" asp-for="@Model.Category" type="radio" value="2" />
-                    <label>Flameable substances</label>
-                    <input style="margin-right: 15px" asp-for="@Model.Category" type="radio" value="3" />
-                    <label>Cars</label>
-                    <input style="margin-right: 15px" asp-for="@Model.Category" type="radio" value="4" />
-                    <label>Equipment or machinery</label>
-                    <input style="margin-right: 15px" asp-for="@Model.Category" type="radio" value="5" />
-                    <label>Dry bulk cargo</label>
-                    <input style="margin-right: 15px" asp-for="@Model.Category" type="radio" value="6" />
-                </div>
+                <select asp-for="@Model.Category" class="form-control" aria-required="true">
+                    <option value="0">Food</option>
+                    <option value="1">Livestock</option>
+                    <option value="2">Chemicals</option>
+                    <option value="3">Flameable substances</option>
+                    <option value="4">Cars</option>
+                    <option value="5">Equipment or machinery</option>
+                    <option value="6">Dry bulk cargo</option>
+                </select>
             </div>
         </div>
         <br />

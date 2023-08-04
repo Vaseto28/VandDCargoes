@@ -1,26 +1,62 @@
-﻿@{
-    ViewBag.Title = "Cargo details";
+﻿@model CargoDetailsViewModel
+
+@{
+    ViewData["Title"] = "Cargo details";
+
+    switch (Model.Category)
+    {
+        case "Food":
+            Model.Category = "Food";
+            break;
+        case "Livestock":
+            Model.Category = "Livestock";
+            break;
+        case "Chemicals":
+            Model.Category = "Chemicals";
+            break;
+        case "FlamableSubstances":
+            Model.Category = "Flamebal substances";
+            break;
+        case "Cars":
+            Model.Category = "Cars";
+            break;
+        case "EquipmentOrMachinery":
+            Model.Category = "Equipment or machinery";
+            break;
+        case "DryBulkCargo":
+            Model.Category = "Dry bulk cargo";
+            break;
+    }
 }
 
-@model CargoDetailsViewModel
-
-<h2 class="text-center">@ViewBag.Title</h2>
+<h2 class="text-center">@ViewData["Title"]</h2>
 <hr />
 
 <div class="row">
     <div class="card w-100">
         <div class="card-body">
             <h3 class="card-title text-center">@Model.Name</h3>
-            <p class="mb-2"><span class="fw-bold">Description: </span>@Model.Description</p>
-            <p class="mb-2"><span class="fw-bold">Weight (tones): </span>@Model.Weight</p>
-            <p class="mb-2"><span class="fw-bold">Category: </span>@Model.Category</p>
-            <p class="mb-2"><span class="fw-bold">Physical state: </span>@Model.PhysicalState</p>
-            <p class="mb-2"><span class="fw-bold">Creator's name: </span>@Model.CreatorName</p>
+
+            <table>
+                <tr>
+                    <td style="text-align: justify; width: 50%">
+                        <p class="mb-2"><span class="fw-bold">Description: </span>@Model.Description</p>
+                        <p class="mb-2"><span class="fw-bold">Weight (tons): </span>@Model.Weight</p>
+                        <p class="mb-2"><span class="fw-bold">Category: </span>@Model.Category</p>
+                        <p class="mb-2"><span class="fw-bold">Physical state: </span>@Model.PhysicalState</p>
+                        <p class="mb-2"><span class="fw-bold">Creator's name: </span>@Model.CreatorName</p>
+                    </td>
+                    <td style="text-align: right; width: 50%">
+                        <img src="@Model.ImageUrl" style="width: 50%; height: 50%" />
+                    </td>
+                </tr>
+            </table>
+
         </div>
 
         <a asp-controller="Cargo" asp-action="All" class="btn btn-warning mb-2 w-100 p-3 fw-bold">All cargoes</a>
 
-        @if (User?.Identity?.Name?.ToLower() == Model.CreatorEmail)
+        @if (this?.User.Claims.ToList()[2].Value.ToLower() == Model.CreatorEmail)
         {
             <a asp-controller="Cargo" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning mb-2 w-100 p-3 fw-bold" style="background-color: darkorange">Edit</a>
             <a asp-controller="Cargo" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-warning mb-2 w-100 p-3 fw-bold" style="background-color: red">Delete</a>

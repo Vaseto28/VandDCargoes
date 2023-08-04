@@ -14,6 +14,7 @@
     <None Remove="Trailer\Enumerations\" />
     <None Remove="Cargo\" />
     <None Remove="Cargo\Enumerations\" />
+    <None Remove="User\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Driver\" />
@@ -23,6 +24,7 @@
     <Folder Include="Trailer\Enumerations\" />
     <Folder Include="Cargo\" />
     <Folder Include="Cargo\Enumerations\" />
+    <Folder Include="User\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VAndDCargoes.Common\VAndDCargoes.Common.csproj" />

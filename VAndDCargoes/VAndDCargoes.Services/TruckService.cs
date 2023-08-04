@@ -131,7 +131,7 @@ public class TruckService : ITruckService
                 TravelledDistance = truck.TraveledDistance,
                 FuelCapacity = truck.FuelCapacity,
                 Condition = (int)truck.Condition,
-                CreatedOn = truck.CreatedOn.ToString("dd/MM/yyyy"),
+                CreatedOn = truck.CreatedOn.ToString("MM/dd/yyyy"),
                 ImageUrl = truck.ImageUrl
             };
 

@@ -1,8 +1,10 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using VAndDCargoes.Data;
 using VAndDCargoes.Data.Models;
 using VAndDCargoes.Services.Contracts;
-using static VAndDCargoes.Web.Infrastructure.Extentions.WebApplicationBuilderExtentions;
+using VAndDCargoes.Web.Infrastructure.Extentions;
+using static VAndDCargoes.Common.GeneralConstants;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -23,7 +25,13 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
     options.Password.RequireNonAlphanumeric = builder.Configuration.GetValue<bool>("Identity:Password:RequireNonAlphanumeric");
     options.Password.RequiredLength = builder.Configuration.GetValue<int>("Identity:Password:RequiredLength");
 })
+.AddRoles<IdentityRole<Guid>>()
 .AddEntityFrameworkStores<VAndDCargoesDbContext>();
+
+builder.Services.ConfigureApplicationCookie(x =>
+{
+    x.LoginPath = "/User/Login";
+});
 
 builder.Services.AddApplicationServices(typeof(IDriverService));
 
@@ -51,10 +59,12 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.SeedAdministrator(DevAdminEmail);
+app.SeedSpecialist(DevSpecialistEmail);
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
 
 app.Run();
-

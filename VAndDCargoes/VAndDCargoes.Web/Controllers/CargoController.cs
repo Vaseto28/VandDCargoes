@@ -14,7 +14,7 @@ public class CargoController : BaseController
         this.cargoService = cargoService;
     }
 
-    //[Authorize(Roles = "Administrator")]
+    [Authorize(Roles = "Administrator, Specialist")]
     [HttpGet]
     public IActionResult Add()
     {

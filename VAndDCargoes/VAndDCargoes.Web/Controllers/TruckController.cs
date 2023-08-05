@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using VAndDCargoes.Services.Contracts;
 using VAndDCargoes.Web.ViewModels.Truck;
 
@@ -13,7 +14,7 @@ public class TruckController : BaseController
         this.truckService = truckService;
     }
 
-    //[Authorize(Roles = "Administrator")]
+    [Authorize(Roles = "Administrator, Specialist")]
     [HttpGet]
     public IActionResult Add()
     {

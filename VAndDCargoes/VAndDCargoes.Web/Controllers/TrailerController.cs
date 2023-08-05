@@ -14,7 +14,7 @@ public class TrailerController : BaseController
         this.trailerService = trailerService;
     }
 
-    //[Authorize(Roles = "Administrator")]
+    [Authorize(Roles = "Administrator, Specialist")]
     [HttpGet]
     public IActionResult Add()
     {

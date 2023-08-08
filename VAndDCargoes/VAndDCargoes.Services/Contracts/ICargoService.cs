@@ -19,5 +19,15 @@ public interface ICargoService
     bool IsCategoryValid(int categoryNum);
 
     bool IsPhysicalStateValid(int physicalStateNum);
+
+    Task<IEnumerable<CargoAllViewModel>> GetAllCargoesCreatedByUserByIdAsync(CargoQueryAllViewModel queryMode, string userId);
+
+    Task<IEnumerable<CargoAllViewModel>> GetAllCargoesDeliveringByUserByIdAsync(string userId);
+
+    Task<bool> DeliverCargoByIdAsync(string userId, string cargoId);
+
+    Task<bool> FinishDeliveringOfCargoByIdAsync(string userId, string cargoId);
+
+    Task<bool> IsCargoStillDelivering(string userId, string cargoeId);
 }
 

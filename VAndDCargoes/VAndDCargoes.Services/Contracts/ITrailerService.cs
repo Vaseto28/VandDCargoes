@@ -21,5 +21,15 @@ public interface ITrailerService
     bool IsConditionValid(int conditionNum);
 
     bool IsDementionsValid(int dementionsNum);
+
+    Task<IEnumerable<TrailerAllViewModel>> GetAllTrailersCreatedByUserByIdAsync(string userId, TrailerQueryAllViewModel queryModel);
+
+    Task<IEnumerable<TrailerAllViewModel>> GetAllTrailersDrivenByUserByIdAsync(string userId);
+
+    Task<bool> DriveTrailerByIdASync(string userId, string trailerId);
+
+    Task<bool> ReleaseTrailerByIdAsync(string userId, string trailerId);
+
+    Task<bool> IsUserAlreadyDrivingTrailerByIdAsync(string userId, string trailerId);
 }
 

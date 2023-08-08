@@ -9,12 +9,6 @@ public class TrailerEntityConfiguration : IEntityTypeConfiguration<Trailer>
     public void Configure(EntityTypeBuilder<Trailer> builder)
     {
         builder
-            .HasOne(x => x.Cargo)
-            .WithMany(x => x.Trailers)
-            .HasForeignKey(x => x.CargoId)
-            .OnDelete(DeleteBehavior.Restrict);
-
-        builder
             .HasOne(x => x.Creator)
             .WithMany(x => x.Trailers)
             .HasForeignKey(x => x.CreatorId)

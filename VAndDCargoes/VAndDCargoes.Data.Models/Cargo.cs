@@ -9,7 +9,8 @@ public class Cargo
     public Cargo()
     {
         this.Id = Guid.NewGuid();
-        this.Trailers = new HashSet<Trailer>();
+
+        this.DriversCargoes = new HashSet<DriversCargoes>();
     }
 
     [Key]
@@ -39,6 +40,6 @@ public class Cargo
 
     public virtual ApplicationUser Creator { get; set; } = null!;
 
-    public virtual ICollection<Trailer> Trailers { get; set; }
+    public virtual ICollection<DriversCargoes> DriversCargoes { get; set; } = null!;
 }
 

@@ -8,7 +8,10 @@ public class Driver
     public Driver()
     {
         this.Id = Guid.NewGuid();
-        this.Trucks = new HashSet<Truck>();
+
+        this.DriversTrucks = new HashSet<DriversTrucks>();
+        this.DriversTrailers = new HashSet<DriversTrailers>();
+        this.DriversCargoes = new HashSet<DriversCargoes>();
     }
 
     [Key]
@@ -36,6 +39,10 @@ public class Driver
 
     public virtual ApplicationUser User { get; set; } = null!;
 
-    public virtual ICollection<Truck> Trucks { get; set; }
+    public virtual ICollection<DriversTrucks> DriversTrucks { get; set; } = null!;
+
+    public virtual ICollection<DriversTrailers> DriversTrailers { get; set; } = null!;
+
+    public virtual ICollection<DriversCargoes> DriversCargoes { get; set; } = null!;
 }
 

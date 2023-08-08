@@ -1,0 +1,37 @@
+﻿@model IEnumerable<TruckAllViewModel>
+@inject IDriverService driverService
+
+@{
+    string fullName = await this.driverService.GetTheFullNameOfDriverByUserIdAsync(this.User.FindFirstValue(ClaimTypes.NameIdentifier));
+    ViewData["Title"] = $"{fullName}'s trucks";
+}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/styles.css">
+</head>
+<body>
+    <header>
+        <h1 align="center">@ViewData["Title"]</h1>
+    </header>
+
+    @if (!this.Model.Any())
+    {
+        <p align="center">You have zero trucks to drive. To take one go to All Trucks.</p>
+    }
+    else
+    {
+        <div class="row">
+            @foreach (var truck in this.Model)
+            {
+                <partial name="_DrivenTruckPartial" model="@truck" />
+            }
+        </div>
+    }
+</body>
+</html>

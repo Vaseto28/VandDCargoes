@@ -1,4 +1,5 @@
 ﻿@model TruckAllViewModel
+@inject IDriverService driverService;
 
 <div class="col-md-4">
     <div class="card mb-3">
@@ -6,15 +7,19 @@
             <h4>@Model.Make @Model.Model</h4>
             <h6>Fuel capacity: <b>@Model.FuelCapacity</b> litres</h6>
             <h6>Travelled distance: <b>@Model.TravelledDistance</b> km</h6>
-            <br />
+            <img src="@Model.ImageUrl" style="width: 50%; height: 50%" />
+            <p></p>
             <a asp-controller="Truck" asp-action="Details" asp-route-id="@Model.Id"
                class="btn btn-success" style="background-color: blue">Details</a>
             <a asp-controller="Truck" asp-action="Edit" asp-route-id="@Model.Id"
                class="btn btn-success" style="background-color: orange">Edit</a>
             <a asp-controller="Truck" asp-action="Delete" asp-route-id="@Model.Id"
                class="btn btn-success" style="background-color: red">Delete</a>
-            <a asp-controller="Truck" asp-action="Drive" asp-route-id="@Model.Id"
-               class="btn btn-success" style="background-color: green">Get to drive</a>
+            @if (await this.driverService.IsTheUseAlreadyDriverByIdAsync(this.User.FindFirstValue(ClaimTypes.NameIdentifier)))
+            {
+                <a asp-controller="Truck" asp-action="Release" asp-route-id="@Model.Id"
+                   class="btn btn-success" style="background-color: green">Release this truck</a>
+            }
         </div>
     </div>
 </div>

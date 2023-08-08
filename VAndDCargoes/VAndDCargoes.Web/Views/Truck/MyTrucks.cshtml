@@ -1,0 +1,73 @@
+﻿@{
+    ViewData["Title"] = "V&D Cargoes's trucks";
+}
+
+@model TruckQueryAllModel
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/styles.css">
+</head>
+<body>
+    <header>
+        <h1 align="center">@ViewData["Title"]</h1>
+    </header>
+
+    <form>
+        <div class="form-group col-md-30 d-flex justify-content-between">
+            <div class="form-group col-md-3" style="width: 25%">
+                <label asp-for="@Model.Keyword">Write a keyword:</label>
+                <input asp-for="@Model.Keyword" class="form-control" placeholder="Search...">
+            </div>
+
+            <div class="form-group col-md-3" style="width: 25%">
+                <label asp-for="@Model.TrucksPerPage">Trucks per page:</label>
+                <select asp-for="@Model.TrucksPerPage" class="form-control">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                </select>
+            </div>
+
+            <div class="form-group col-md-3" style="width: 25%">
+                <div class="form-group">
+                    <label asp-for="@Model.TrucksOrdering">Order trucks by:</label>
+                    <select asp-for="@Model.TrucksOrdering" class="form-control">
+                        <option value="0">Newest</option>
+                        <option value="1">Oldest</option>
+                        <option value="2">Make (Ascending)</option>
+                        <option value="3">Make (Descending)</option>
+                        <option value="4">Free to drive first</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <center>
+            <div class="col-md-3">
+                <div class="form-group mt-4 p-2">
+                    <input type="submit" value="Apply filters" class="btn btn-primary" />
+                </div>
+            </div>
+        </center>
+    </form>
+
+    @if (!this.Model.Trucks.Any())
+    {
+        <p align="center">You have zero trucks to drive. To take one go to All Trucks.</p>
+    }
+    else
+    {
+        <div class="row">
+            @foreach (var truck in this.Model.Trucks)
+            {
+                <partial name="_MyTruckPartial" model="@truck" />
+            }
+        </div>
+    }
+</body>
+</html>

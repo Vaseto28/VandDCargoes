@@ -1,7 +1,7 @@
 ﻿@model TruckAllViewModel
 
 <div class="col-md-4">
-    <div class="card mb-4">
+    <div class="card mb-3">
         <div class="card-body text-center">
             <h4>@Model.Make @Model.Model</h4>
 
@@ -17,8 +17,8 @@
                 </div>
                 <div class="col">
                     <form>
-                        <input asp-controller="Truck" asp-action="Drive" asp-route-id="@Model.Id"
-                               class="btn btn-success" type="submit" value="Drive this truck" style="background-color: green" />
+                        <input asp-controller="Truck" asp-action="Release" asp-route-id="@Model.Id"
+                               class="btn btn-success" type="submit" value="Release this truck" style="background-color: lightsalmon" />
                     </form>
                 </div>
             </div>

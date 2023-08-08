@@ -32,8 +32,13 @@
                                 <div class="dropdown">
                                     <button class="dropbtn">Truck operations</button>
                                     <div class="dropdown-content">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Truck" asp-action="DrivenTrucks">Trucks, driven by @this.User.Identity.Name</a>
+                                        @if (this.User.IsInRole("Administrator") || this.User.IsInRole("Specialist"))
+                                        {
+                                            <a class="nav-link text-dark" asp-area="" asp-controller="Truck" asp-action="MyTrucks">Trucks, created by @this.User.Identity.Name</a>
+                                            <a class="nav-link text-dark" asp-area="" asp-controller="Truck" asp-action="Add">Add Truck</a>
+                                        }
                                         <a class="nav-link text-dark" asp-area="" asp-controller="Truck" asp-action="All">All Trucks</a>
-                                        <a class="nav-link text-dark" asp-area="" asp-controller="Truck" asp-action="Add">Add Truck</a>
                                     </div>
                                 </div>
                             </li>
@@ -41,8 +46,13 @@
                                 <div class="dropdown">
                                     <button class="dropbtn">Trailer operations</button>
                                     <div class="dropdown-content">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Trailer" asp-action="DrivenTrailers">Trailers, driven by @this.User.Identity.Name</a>
+                                        @if (this.User.IsInRole("Administrator") || this.User.IsInRole("Specialist"))
+                                        {
+                                            <a class="nav-link text-dark" asp-area="" asp-controller="Trailer" asp-action="MyTrailers">Trailers, created by @this.User.Identity.Name</a>
+                                            <a class="nav-link text-dark" asp-area="" asp-controller="Trailer" asp-action="Add">Add Trailer</a>
+                                        }
                                         <a class="nav-link text-dark" asp-area="" asp-controller="Trailer" asp-action="All">All Trailers</a>
-                                        <a class="nav-link text-dark" asp-area="" asp-controller="Trailer" asp-action="Add">Add Trailer</a>
                                     </div>
                                 </div>
                             </li>
@@ -50,8 +60,13 @@
                                 <div class="dropdown">
                                     <button class="dropbtn">Cargo operations</button>
                                     <div class="dropdown-content">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Cargo" asp-action="DeliveringCargoes">Cargoes, delivering by @this.User.Identity.Name</a>
+                                        @if (this.User.IsInRole("Administrator") || this.User.IsInRole("Specialist"))
+                                        {
+                                            <a class="nav-link text-dark" asp-area="" asp-controller="Cargo" asp-action="MyCargoes">Cargoes, created by @this.User.Identity.Name</a>
+                                            <a class="nav-link text-dark" asp-area="" asp-controller="Cargo" asp-action="Add">Add Cargo</a>
+                                        }
                                         <a class="nav-link text-dark" asp-area="" asp-controller="Cargo" asp-action="All">All Cargoes</a>
-                                        <a class="nav-link text-dark" asp-area="" asp-controller="Cargo" asp-action="Add">Add Cargo</a>
                                     </div>
                                 </div>
                             </li>

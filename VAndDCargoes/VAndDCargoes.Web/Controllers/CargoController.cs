@@ -166,7 +166,7 @@ public class CargoController : BaseController
             return RedirectToAction("DeliveringCargoes", "Cargo");
         }
 
-        return RedirectToAction("All", "Cargoes");
+        return RedirectToAction("All", "Cargo");
     }
 
     public async Task<IActionResult> Finish(string id)

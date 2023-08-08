@@ -21,6 +21,12 @@ public class VAndDCargoesDbContext : IdentityDbContext<ApplicationUser, Identity
 
     public DbSet<Driver> Drivers { get; set; } = null!;
 
+    public DbSet<DriversTrucks> DriversTrucks { get; set; } = null!;
+
+    public DbSet<DriversTrailers> DriversTrailers { get; set; } = null!;
+
+    public DbSet<DriversCargoes> DriversCargoes { get; set; } = null!;
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         base.OnConfiguring(optionsBuilder.UseLazyLoadingProxies());

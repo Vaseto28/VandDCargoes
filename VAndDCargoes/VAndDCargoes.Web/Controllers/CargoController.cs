@@ -137,5 +137,49 @@ public class CargoController : BaseController
 
         return RedirectToAction("All", "Cargo");
     }
+
+    public async Task<IActionResult> MyCargoes([FromQuery]CargoQueryAllViewModel queryModel)
+    {
+        string userId = this.GetUserId();
+
+        queryModel.Cargoes = await this.cargoService.GetAllCargoesCreatedByUserByIdAsync(queryModel, userId);
+
+        return View(queryModel);
+    }
+
+    public async Task<IActionResult> DeliveringCargoes()
+    {
+        string userId = this.GetUserId();
+
+        IEnumerable<CargoAllViewModel> cargoes = await this.cargoService.GetAllCargoesDeliveringByUserByIdAsync(userId);
+
+        return View(cargoes);
+    }
+
+    public async Task<IActionResult> Deliver(string id)
+    {
+        string userId = this.GetUserId();
+
+        if (await this.cargoService.IsCargoStillDelivering(userId, id) &&
+            await this.cargoService.DeliverCargoByIdAsync(userId, id))
+        {
+            return RedirectToAction("DeliveringCargoes", "Cargo");
+        }
+
+        return RedirectToAction("All", "Cargoes");
+    }
+
+    public async Task<IActionResult> Finish(string id)
+    {
+        string userId = this.GetUserId();
+
+        if (!await this.cargoService.IsCargoStillDelivering(userId, id) &&
+            await this.cargoService.FinishDeliveringOfCargoByIdAsync(userId, id))
+        {
+            return RedirectToAction("All", "Cargo");
+        }
+
+        return RedirectToAction("DeliveringCargoes", "Cargo");
+    }
 }
 

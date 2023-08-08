@@ -130,5 +130,49 @@ public class TrailerController : BaseController
 
         return RedirectToAction("All", "Trailer");
     }
+
+    public async Task<IActionResult> MyTrailers([FromQuery]TrailerQueryAllViewModel queryModel)
+    {
+        string userId = this.GetUserId();
+
+        queryModel.Trailers = await this.trailerService.GetAllTrailersCreatedByUserByIdAsync(userId, queryModel);
+
+        return View(queryModel);
+    }
+
+    public async Task<IActionResult> DrivenTrailers()
+    {
+        string userId = this.GetUserId();
+
+        IEnumerable<TrailerAllViewModel> trailers = await this.trailerService.GetAllTrailersDrivenByUserByIdAsync(userId);
+
+        return View(trailers);
+    }
+
+    public async Task<IActionResult> Drive(string id)
+    {
+        string userId = this.GetUserId();
+
+        if (await this.trailerService.IsUserAlreadyDrivingTrailerByIdAsync(userId, id) &&
+            await this.trailerService.DriveTrailerByIdASync(userId, id))
+        {
+            return RedirectToAction("DrivenTrailers", "Trailer");
+        }
+
+        return RedirectToAction("All", "Trailer");
+    }
+
+    public async Task<IActionResult> Release(string id)
+    {
+        string userId = this.GetUserId();
+
+        if (!await this.trailerService.IsUserAlreadyDrivingTrailerByIdAsync(userId, id) &&
+            await this.trailerService.ReleaseTrailerByIdAsync(userId, id))
+        {
+            return RedirectToAction("All", "Trailer");
+        }
+
+        return RedirectToAction("DrivenTrailers", "Trailer");
+    }
 }
 

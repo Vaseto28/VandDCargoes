@@ -144,5 +144,49 @@ public class TruckController : BaseController
 
         return RedirectToAction("All", "Truck");
     }
+
+    public async Task<IActionResult> MyTrucks([FromQuery]TruckQueryAllModel queryModel)
+    {
+        string userId = this.GetUserId();
+
+        queryModel.Trucks = await this.truckService.GetAllTrucksCreatedByUserByIdAsync(userId, queryModel);
+
+        return View(queryModel);
+    }
+
+    public async Task<IActionResult> DrivenTrucks()
+    {
+        string userId = this.GetUserId();
+
+        IEnumerable<TruckAllViewModel> model = await this.truckService.GetAllTrucksDrivenByUserByIdAsync(userId);
+
+        return View(model);
+    }
+
+    public async Task<IActionResult> Drive(string id)
+    {
+        string userId = this.GetUserId();
+
+        if (await this.truckService.IsUserAlreadyDrivingTruckByIdAsync(userId, id) &&
+            await this.truckService.DriveTruckByIdAsync(userId, id))
+        {
+            return RedirectToAction("DrivenTrucks", "Truck");
+        }
+
+        return RedirectToAction("All", "Truck");
+    }
+
+    public async Task<IActionResult> Release(string id)
+    {
+        string userId = this.GetUserId();
+
+        if (!await this.truckService.IsUserAlreadyDrivingTruckByIdAsync(userId, id) &&
+            await this.truckService.ReleaseTruckByIdAsync(userId, id))
+        {
+            return RedirectToAction("All", "Truck");
+        }
+
+        return RedirectToAction("DrivenTrucks", "Truck");
+    }
 }
 

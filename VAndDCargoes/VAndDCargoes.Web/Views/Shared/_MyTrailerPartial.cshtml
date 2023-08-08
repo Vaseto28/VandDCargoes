@@ -1,24 +1,20 @@
 ﻿@model TrailerAllViewModel
-@inject IDriverService driverService;
 
 <div class="col-md-4">
     <div class="card mb-3">
         <div class="card-body text-center">
+            @*<h2>Trailer added by: <b>@Model.CreatorEmail?.Split('@')[0]</b></h2>*@
             <h6>Capacity: <b>@Model.Capacity</b> tones</h6>
             <h6>Category: <b>@Model.Category</b></h6>
-            <img src="@Model.ImageUrl" style="width: 50%; height: 50%" />
-            <p></p>
+            <br />
             <a asp-controller="Trailer" asp-action="Details" asp-route-id="@Model.Id"
                class="btn btn-success" style="background-color: blue">Details</a>
             <a asp-controller="Trailer" asp-action="Edit" asp-route-id="@Model.Id"
                class="btn btn-success" style="background-color: orange">Edit</a>
             <a asp-controller="Trailer" asp-action="Delete" asp-route-id="@Model.Id"
                class="btn btn-success" style="background-color: red">Delete</a>
-            @if (await this.driverService.IsTheUseAlreadyDriverByIdAsync(this.User.FindFirstValue(ClaimTypes.NameIdentifier)))
-            {
-                <a asp-controller="Trailer" asp-action="Drive" asp-route-id="@Model.Id"
-                   class="btn btn-success" style="background-color: green">Drive the trailer</a>
-            }
+            <a asp-controller="Trailer" asp-action="GetToDrive" asp-route-id="@Model.Id"
+               class="btn btn-success" style="background-color: green">Get the trailer</a>
         </div>
     </div>
 </div>

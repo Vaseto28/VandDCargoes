@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VAndDCargoes.Data;
 
@@ -11,9 +12,10 @@ using VAndDCargoes.Data;
 namespace VAndDCargoes.Web.Migrations
 {
     [DbContext(typeof(VAndDCargoesDbContext))]
-    partial class VAndDCargoesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230806130101_CreatedMappingTableDriversTrucks")]
+    partial class CreatedMappingTableDriversTrucks
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -305,36 +307,6 @@ namespace VAndDCargoes.Web.Migrations
                     b.ToTable("Drivers");
                 });
 
-            modelBuilder.Entity("VAndDCargoes.Data.Models.DriversCargoes", b =>
-                {
-                    b.Property<Guid>("DriverId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("CargoId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("DriverId", "CargoId");
-
-                    b.HasIndex("CargoId");
-
-                    b.ToTable("DriversCargoes");
-                });
-
-            modelBuilder.Entity("VAndDCargoes.Data.Models.DriversTrailers", b =>
-                {
-                    b.Property<Guid>("DriverId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("TrailerId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("DriverId", "TrailerId");
-
-                    b.HasIndex("TrailerId");
-
-                    b.ToTable("DriversTrailers");
-                });
-
             modelBuilder.Entity("VAndDCargoes.Data.Models.DriversTrucks", b =>
                 {
                     b.Property<Guid>("DriverId")
@@ -510,44 +482,6 @@ namespace VAndDCargoes.Web.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("VAndDCargoes.Data.Models.DriversCargoes", b =>
-                {
-                    b.HasOne("VAndDCargoes.Data.Models.Cargo", "Cargo")
-                        .WithMany("DriversCargoes")
-                        .HasForeignKey("CargoId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("VAndDCargoes.Data.Models.Driver", "Driver")
-                        .WithMany("DriversCargoes")
-                        .HasForeignKey("DriverId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Cargo");
-
-                    b.Navigation("Driver");
-                });
-
-            modelBuilder.Entity("VAndDCargoes.Data.Models.DriversTrailers", b =>
-                {
-                    b.HasOne("VAndDCargoes.Data.Models.Driver", "Driver")
-                        .WithMany("DriversTrailers")
-                        .HasForeignKey("DriverId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("VAndDCargoes.Data.Models.Trailer", "Trailer")
-                        .WithMany("DriversTrailers")
-                        .HasForeignKey("TrailerId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Driver");
-
-                    b.Navigation("Trailer");
-                });
-
             modelBuilder.Entity("VAndDCargoes.Data.Models.DriversTrucks", b =>
                 {
                     b.HasOne("VAndDCargoes.Data.Models.Driver", "Driver")
@@ -600,23 +534,9 @@ namespace VAndDCargoes.Web.Migrations
                     b.Navigation("Trucks");
                 });
 
-            modelBuilder.Entity("VAndDCargoes.Data.Models.Cargo", b =>
-                {
-                    b.Navigation("DriversCargoes");
-                });
-
             modelBuilder.Entity("VAndDCargoes.Data.Models.Driver", b =>
                 {
-                    b.Navigation("DriversCargoes");
-
-                    b.Navigation("DriversTrailers");
-
                     b.Navigation("DriversTrucks");
-                });
-
-            modelBuilder.Entity("VAndDCargoes.Data.Models.Trailer", b =>
-                {
-                    b.Navigation("DriversTrailers");
                 });
 
             modelBuilder.Entity("VAndDCargoes.Data.Models.Truck", b =>

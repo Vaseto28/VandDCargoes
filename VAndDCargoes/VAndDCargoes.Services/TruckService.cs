@@ -48,6 +48,28 @@ public class TruckService : ITruckService
         }
     }
 
+    public async Task<bool> DriveTruckByIdAsync(string userId, string truckId)
+    {
+        Driver driver = await this.dbCtx.Drivers.FirstAsync(x => x.UserId.ToString().Equals(userId));
+
+        if (await this.dbCtx.Trucks.FindAsync(Guid.Parse(truckId)) != null &&
+            driver != null)
+        {
+            DriversTrucks driversTrucks = new DriversTrucks()
+            {
+                DriverId = driver.Id,
+                TruckId = Guid.Parse(truckId)
+            };
+
+            await this.dbCtx.DriversTrucks.AddAsync(driversTrucks);
+            await this.dbCtx.SaveChangesAsync();
+
+            return true;
+        }
+
+        return false;
+    }
+
     public async Task EditTruckAsync(TruckEditViewModel model, string truckId)
     {
         Truck? truck = await this.dbCtx.Trucks
@@ -94,8 +116,8 @@ public class TruckService : ITruckService
                 .OrderBy(x => x.Make),
             TrucksOrdering.MakeDescending => trucksQuery
                 .OrderByDescending(x => x.Make),
-            TrucksOrdering.FreeToDriveFirst => trucksQuery
-                .OrderBy(x => x.DriverId != null),
+            //TrucksOrdering.FreeToDriveFirst => trucksQuery
+            //    .OrderBy(x => x.DriverId != null),
             _ => throw new NotImplementedException()
         };
 
@@ -114,6 +136,78 @@ public class TruckService : ITruckService
             .ToArrayAsync();
 
         return allTrucksModel;
+    }
+
+    public async Task<IEnumerable<TruckAllViewModel>> GetAllTrucksCreatedByUserByIdAsync(string id, TruckQueryAllModel queryModel)
+    {
+        IQueryable<Truck> trucksQuery = this.dbCtx.Trucks
+            .Where(x => x.CreatorId.ToString().Equals(id))
+            .AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(queryModel.Keyword))
+        {
+            string wildCard = $"%{queryModel.Keyword.ToLower()}%";
+
+            trucksQuery = trucksQuery
+                .Where(x => EF.Functions.Like(x.Make, wildCard) ||
+                            EF.Functions.Like(x.Model, wildCard));
+        }
+
+        //TODO: Check if this functionality is working
+
+        trucksQuery = queryModel.TrucksOrdering switch
+        {
+            TrucksOrdering.Newest => trucksQuery
+                .OrderByDescending(x => x.CreatedOn),
+            TrucksOrdering.Oldest => trucksQuery
+                .OrderBy(x => x.CreatedOn),
+            TrucksOrdering.MakeAscending => trucksQuery
+                .OrderBy(x => x.Make),
+            TrucksOrdering.MakeDescending => trucksQuery
+                .OrderByDescending(x => x.Make),
+            //TrucksOrdering.FreeToDriveFirst => trucksQuery
+            //    .OrderBy(x => x.DriverId != null),
+            _ => throw new NotImplementedException()
+        };
+
+        IEnumerable<TruckAllViewModel> allTrucksModel = await trucksQuery
+            .Skip((queryModel.CurrentPage - 1) * queryModel.TrucksPerPage)
+            .Take(queryModel.TrucksPerPage)
+            .Select(x => new TruckAllViewModel()
+            {
+                Id = x.Id.ToString(),
+                Make = x.Make,
+                Model = x.Model,
+                FuelCapacity = x.FuelCapacity,
+                TravelledDistance = x.TraveledDistance,
+                ImageUrl = x.ImageUrl
+            })
+            .ToArrayAsync();
+
+        return allTrucksModel;
+    }
+
+    public async Task<IEnumerable<TruckAllViewModel>> GetAllTrucksDrivenByUserByIdAsync(string id)
+    {
+        Driver? driver = await this.dbCtx.Drivers.FirstOrDefaultAsync(x => x.UserId.ToString().Equals(id));
+
+        if (driver != null)
+        {
+            return await this.dbCtx.DriversTrucks
+            .Where(x => x.DriverId.Equals(driver.Id))
+            .Select(x => new TruckAllViewModel()
+            {
+                Id = x.Truck.Id.ToString(),
+                Make = x.Truck.Make,
+                Model = x.Truck.Model,
+                FuelCapacity = x.Truck.FuelCapacity,
+                TravelledDistance = x.Truck.TraveledDistance,
+                ImageUrl = x.Truck.ImageUrl
+            })
+            .ToArrayAsync();
+        }
+
+        return new List<TruckAllViewModel>();
     }
 
     public async Task<TruckEditViewModel?> GetTruckByIdForEditAsync(string truckId)
@@ -159,10 +253,9 @@ public class TruckService : ITruckService
                 Condition = truck.Condition.ToString(),
                 CreatedOn = truck.CreatedOn.ToString("dd/MM/yyyy"),
                 CreatorName = truck.Creator.UserName,
-                DriverName = truck.Driver != null ?
-                    $"{truck.Driver.FirstName} {truck.Driver.SecondName} {truck.Driver.LastName}" :
-                    $"This truck hasn't a driver yet!",
-                Trailer = truck.Trailer != null ? "Yes" : "No",
+                //DriverName = truck.Driver != null ?
+                //    $"{truck.Driver.FirstName} {truck.Driver.SecondName} {truck.Driver.LastName}" :
+                //    $"This truck hasn't a driver yet!",
                 CreatorEmail = truck.Creator.Email.ToLower(),
                 ImageUrl = truck.ImageUrl
             };
@@ -176,6 +269,44 @@ public class TruckService : ITruckService
     public bool IsConditionValid(int conditionNum)
     {
         return conditionNum < ConditionLowerBound || conditionNum > ConditionUpperBound;
+    }
+
+    public async Task<bool> IsUserAlreadyDrivingTruckByIdAsync(string userId, string truckId)
+    {
+        Driver? driver = await this.dbCtx.Drivers
+            .FirstOrDefaultAsync(x => x.UserId.ToString().Equals(userId));
+        if (driver != null)
+        {
+            DriversTrucks? driversTrucks = await this.dbCtx.DriversTrucks
+                .FirstOrDefaultAsync(x => x.DriverId.Equals(driver.Id) && x.TruckId.ToString().Equals(truckId));
+
+            if (driversTrucks == null)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public async Task<bool> ReleaseTruckByIdAsync(string userId, string truckId)
+    {
+        Driver? driver = await this.dbCtx.Drivers.FirstOrDefaultAsync(x => x.UserId.ToString().Equals(userId));
+        if (driver == null)
+        {
+            return false;
+        }
+
+        DriversTrucks? driversTrucks = await this.dbCtx.DriversTrucks
+            .FirstOrDefaultAsync(x => x.TruckId.ToString().Equals(truckId));
+        if (driversTrucks == null)
+        {
+            return false;
+        }
+
+        this.dbCtx.DriversTrucks.Remove(driversTrucks);
+        await this.dbCtx.SaveChangesAsync();
+        return true;
     }
 }
 

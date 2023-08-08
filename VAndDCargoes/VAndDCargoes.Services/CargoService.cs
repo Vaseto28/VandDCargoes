@@ -26,7 +26,8 @@ public class CargoService : ICargoService
             Weight = model.Weight,
             Category = (CargoCategory)model.Category,
             PhysicalState = (CargoPhysicalState)model.PhysicalState,
-            ImageUrl = model.ImageUrl
+            ImageUrl = model.ImageUrl,
+            CreatorId = Guid.Parse(userId)
         };
 
         await this.dbCtx.Cargoes.AddAsync(cargo);
@@ -45,6 +46,28 @@ public class CargoService : ICargoService
         }
     }
 
+    public async Task<bool> DeliverCargoByIdAsync(string userId, string cargoId)
+    {
+        Driver? driver = await this.dbCtx.Drivers
+            .FirstOrDefaultAsync(x => x.UserId.ToString().Equals(userId));
+
+        if (await this.dbCtx.Cargoes.FindAsync(Guid.Parse(cargoId)) != null &&
+            driver != null)
+        {
+            DriversCargoes driversCargoes = new DriversCargoes()
+            {
+                DriverId = driver.Id,
+                CargoId = Guid.Parse(cargoId)
+            };
+
+            await this.dbCtx.AddAsync(driversCargoes);
+            await this.dbCtx.SaveChangesAsync();
+            return true;
+        }
+
+        return false;
+    }
+
     public async Task EditCargoAsync(CargoEditViewModel model, string id)
     {
         Cargo? cargo = await this.dbCtx.Cargoes
@@ -61,6 +84,28 @@ public class CargoService : ICargoService
         }
 
         await this.dbCtx.SaveChangesAsync();
+    }
+
+    public async Task<bool> FinishDeliveringOfCargoByIdAsync(string userId, string cargoId)
+    {
+        Driver? driver = await this.dbCtx.Drivers
+            .FirstOrDefaultAsync(x => x.UserId.ToString().Equals(userId));
+
+        if (driver != null)
+        {
+            DriversCargoes? driversCargoes = await this.dbCtx.DriversCargoes
+                .FirstOrDefaultAsync(x => x.DriverId.Equals(driver.Id) && x.CargoId.ToString().Equals(cargoId));
+
+            if (driversCargoes != null)
+            {
+                this.dbCtx.DriversCargoes.Remove(driversCargoes);
+                await this.dbCtx.SaveChangesAsync();
+
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public async Task<IEnumerable<CargoAllViewModel>> GetAllCargoesAsync(CargoQueryAllViewModel model)
@@ -112,6 +157,71 @@ public class CargoService : ICargoService
         return cargoes;
     }
 
+    public async Task<IEnumerable<CargoAllViewModel>> GetAllCargoesCreatedByUserByIdAsync(CargoQueryAllViewModel querymodel, string userId)
+    {
+        IQueryable<Cargo> cargoesQuery = this.dbCtx.Cargoes
+            .Where(x => x.CreatorId.ToString().Equals(userId))
+            .AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(querymodel.Keyword))
+        {
+            string wildCard = $"%{querymodel.Keyword.ToLower()}%";
+
+            cargoesQuery = cargoesQuery
+                .Where(x => EF.Functions.Like(x.Name, wildCard) ||
+                            EF.Functions.Like(x.Description, wildCard));
+        }
+
+        cargoesQuery = querymodel.CargoesOrdering switch
+        {
+            CargoesOrdering.NameAscending => cargoesQuery
+                .OrderBy(x => x.Name),
+            CargoesOrdering.NameDescending => cargoesQuery
+                .OrderByDescending(x => x.Name),
+            CargoesOrdering.DescriptionLengthAscending => cargoesQuery
+                .OrderBy(x => x.Description),
+            CargoesOrdering.DescriptionLengthDescending => cargoesQuery
+                .OrderByDescending(x => x.Description),
+            CargoesOrdering.WeightAscending => cargoesQuery
+                .OrderBy(x => x.Weight),
+            CargoesOrdering.WeightDescending => cargoesQuery
+            .OrderByDescending(x => x.Weight),
+            _ => throw new NotImplementedException()
+        };
+
+        return await cargoesQuery
+            .Skip((querymodel.CurrentPage - 1) * querymodel.CargoesPerPage)
+            .Take(querymodel.CargoesPerPage)
+            .Select(x => new CargoAllViewModel()
+            {
+                Id = x.Id.ToString(),
+                Name = x.Name,
+                Description = x.Description,
+                Weight = x.Weight,
+                Category = x.Category.ToString(),
+                PhysicalState = x.PhysicalState.ToString(),
+                ImageUrl = x.ImageUrl
+            })
+            .ToArrayAsync();
+    }
+
+    public async Task<IEnumerable<CargoAllViewModel>> GetAllCargoesDeliveringByUserByIdAsync(string userId)
+    {
+        return await this.dbCtx.DriversCargoes
+            .Where(x => x.Driver.UserId.ToString().Equals(userId))
+            .Select(x => new CargoAllViewModel()
+            {
+                Id = x.Cargo.Id.ToString(),
+                Name = x.Cargo.Name,
+                Description = x.Cargo.Description,
+                ImageUrl = x.Cargo.ImageUrl,
+                Weight = x.Cargo.Weight,
+                Category = x.Cargo.Category.ToString(),
+                PhysicalState = x.Cargo.PhysicalState.ToString()
+            })
+            .ToArrayAsync();
+    }
+
     public async Task<CargoDetailsViewModel?> GetCargoDetailsById(string id)
     {
         Cargo? cargo = await this.dbCtx.Cargoes
@@ -159,6 +269,25 @@ public class CargoService : ICargoService
         }
 
         return null;
+    }
+
+    public async Task<bool> IsCargoStillDelivering(string userId, string cargoeId)
+    {
+        Driver? driver = await this.dbCtx.Drivers
+            .FirstOrDefaultAsync(x => x.UserId.ToString().Equals(userId));
+
+        if (driver != null)
+        {
+            DriversCargoes? driversCargoes = await this.dbCtx.DriversCargoes
+                .FirstOrDefaultAsync(x => x.DriverId.Equals(driver.Id) && x.CargoId.ToString().Equals(cargoeId));
+
+            if (driversCargoes == null)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public bool IsCategoryValid(int categoryNum)

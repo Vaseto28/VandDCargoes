@@ -29,7 +29,7 @@ public static class EntitiesValidations
     public static class Cargo
     {
         public const int NameMinLength = 2;
-        public const int NameMaxLength = 15;
+        public const int NameMaxLength = 30;
         public const int DescriptionMinLength = 20;
         public const int DescriptionMaxLength = 200;
         public const int WeightMinLength = 1;

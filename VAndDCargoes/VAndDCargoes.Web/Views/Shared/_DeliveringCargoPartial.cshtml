@@ -1,0 +1,28 @@
+﻿@model CargoAllViewModel
+@inject IDriverService driverService;
+
+<div class="col-md-4">
+    <div class="card mb-3">
+        <div class="card-body text-center">
+            <h6>Name: <b>@Model.Name</b></h6>
+            <h6>Category: <b>@Model.Category</b></h6>
+            <img src="@Model.ImageUrl" style="width: 50%; height: 50%" />
+            <p></p>
+            <div class="row">
+                <div class="col">
+                    <a asp-controller="Cargo" asp-action="Details" asp-route-id="@Model.Id"
+                       class="btn btn-success" style="background-color: blue">Details</a>
+                </div>
+                @if (await this.driverService.IsTheUseAlreadyDriverByIdAsync(this.User.FindFirstValue(ClaimTypes.NameIdentifier)))
+                {
+                    <div class="col">
+                        <form>
+                            <input asp-controller="Cargo" asp-action="Finish" asp-route-id="@Model.Id"
+                                   class="btn btn-success" type="submit" value="Finish delivering" style="background-color: lightsalmon" />
+                        </form>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

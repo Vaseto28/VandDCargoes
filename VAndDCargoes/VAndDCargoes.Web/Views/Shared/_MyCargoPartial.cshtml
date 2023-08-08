@@ -1,20 +1,24 @@
 ﻿@model CargoAllViewModel
+@inject IDriverService driverService;
 
 <div class="col-md-4">
     <div class="card mb-3">
         <div class="card-body text-center">
-            @*<h2>Cargo added by: <b>@Model.CreatorEmail?.Split('@')[0]</b></h2>*@
             <h6>Name: <b>@Model.Name</b></h6>
             <h6>Category: <b>@Model.Category</b></h6>
-            <br />
+            <img src="@Model.ImageUrl" style="width: 50%; height: 50%" />
+            <p></p>
             <a asp-controller="Cargo" asp-action="Details" asp-route-id="@Model.Id"
                class="btn btn-success" style="background-color: blue">Details</a>
             <a asp-controller="Cargo" asp-action="Edit" asp-route-id="@Model.Id"
                class="btn btn-success" style="background-color: orange">Edit</a>
             <a asp-controller="Cargo" asp-action="Delete" asp-route-id="@Model.Id"
                class="btn btn-success" style="background-color: red">Delete</a>
-            <a asp-controller="Cargo" asp-action="GetToDrive" asp-route-id="@Model.Id"
-               class="btn btn-success" style="background-color: green">Get the trailer</a>
+            @if (await this.driverService.IsTheUseAlreadyDriverByIdAsync(this.User.FindFirstValue(ClaimTypes.NameIdentifier)))
+            {
+                <a asp-controller="Cargo" asp-action="Deliver" asp-route-id="@Model.Id"
+                   class="btn btn-success" style="background-color: green">Deliver the cargo</a>
+            }
         </div>
     </div>
 </div>

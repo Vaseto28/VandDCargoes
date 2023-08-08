@@ -27,17 +27,25 @@
 <div class="col-md-4">
     <div class="card mb-3">
         <div class="card-body text-center">
-            <h2>V&D Cargo's trailer</h2>
+            <h2>@Model.Category trailer</h2>
 
             <img src="@Model.ImageUrl" style="width: 50%; height: 50%" />
 
             <h6>Capacity: <b>@Model.Capacity</b> tones</h6>
-            <h6>Category: <b>@Model.Category</b></h6>
+            <h6>Dementions: <b>@Model.Dementions</b></h6>
             
-            <a asp-controller="Trailer" asp-action="Details" asp-route-id="@Model.Id"
-               class="btn btn-success" style="background-color: blue">Details</a>
-            <a asp-controller="Trailer" asp-action="GetToDrive" asp-route-id="@Model.Id"
-               class="btn btn-success" style="background-color: green">Get the trailer</a>
+            <div class="row">
+                <div class="col">
+                    <a asp-controller="Trailer" asp-action="Details" asp-route-id="@Model.Id"
+                       class="btn btn-success" style="background-color: blue">Details</a>
+                </div>
+                <div class="col">
+                    <form>
+                        <input asp-controller="Trailer" asp-action="Drive" asp-route-id="@Model.Id"
+                               class="btn btn-success" type="submit" value="Drive this trailer" style="background-color: green" />
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 </div>

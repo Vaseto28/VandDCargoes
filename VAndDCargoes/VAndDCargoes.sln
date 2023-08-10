@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VAndDCargoes.Services", "VA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VAndDCargoes.Web.Infrastructure", "VAndDCargoes.Web.Infrastructure\VAndDCargoes.Web.Infrastructure.csproj", "{CC9DED74-7F70-4BC9-B35A-52A7B96F0AE4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VAndDCargoes.Services.Tests", "VAndDCargoes.Services.Tests\VAndDCargoes.Services.Tests.csproj", "{EB4D34EB-A763-44A3-B479-5B35C3C1C437}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{CC9DED74-7F70-4BC9-B35A-52A7B96F0AE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CC9DED74-7F70-4BC9-B35A-52A7B96F0AE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CC9DED74-7F70-4BC9-B35A-52A7B96F0AE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB4D34EB-A763-44A3-B479-5B35C3C1C437}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB4D34EB-A763-44A3-B479-5B35C3C1C437}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB4D34EB-A763-44A3-B479-5B35C3C1C437}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB4D34EB-A763-44A3-B479-5B35C3C1C437}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

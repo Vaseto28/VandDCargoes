@@ -50,7 +50,7 @@ public class TruckService : ITruckService
 
     public async Task<bool> DriveTruckByIdAsync(string userId, string truckId)
     {
-        Driver driver = await this.dbCtx.Drivers.FirstAsync(x => x.UserId.ToString().Equals(userId));
+        Driver? driver = await this.dbCtx.Drivers.FirstOrDefaultAsync(x => x.UserId.ToString().Equals(userId));
 
         if (await this.dbCtx.Trucks.FindAsync(Guid.Parse(truckId)) != null &&
             driver != null)
@@ -153,8 +153,6 @@ public class TruckService : ITruckService
                             EF.Functions.Like(x.Model, wildCard));
         }
 
-        //TODO: Check if this functionality is working
-
         trucksQuery = queryModel.TrucksOrdering switch
         {
             TrucksOrdering.Newest => trucksQuery
@@ -253,9 +251,6 @@ public class TruckService : ITruckService
                 Condition = truck.Condition.ToString(),
                 CreatedOn = truck.CreatedOn.ToString("dd/MM/yyyy"),
                 CreatorName = truck.Creator.UserName,
-                //DriverName = truck.Driver != null ?
-                //    $"{truck.Driver.FirstName} {truck.Driver.SecondName} {truck.Driver.LastName}" :
-                //    $"This truck hasn't a driver yet!",
                 CreatorEmail = truck.Creator.Email.ToLower(),
                 ImageUrl = truck.ImageUrl
             };

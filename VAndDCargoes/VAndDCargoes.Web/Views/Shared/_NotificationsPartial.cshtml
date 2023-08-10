@@ -1,0 +1,21 @@
+﻿@using static VAndDCargoes.Common.NotificationMessagesConstants;
+
+@if (TempData.ContainsKey(ErrorMessage))
+{
+    <script>toastr.error('@TempData[ErrorMessage]');</script>
+}
+
+@if (TempData.ContainsKey(WarnMessage))
+{
+    <script>toastr.warning('@TempData[WarnMessage]');</script>
+}
+
+@if (TempData.ContainsKey(InformationMessage))
+{
+    <script>toastr.info('@TempData[InformationMessage]');</script>
+}
+
+@if (TempData.ContainsKey(SuccessMessage))
+{
+    <script>toastr.success('@TempData[SuccessMessage]');</script>
+}

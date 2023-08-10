@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using VAndDCargoes.Services.Contracts;
 using VAndDCargoes.Web.ViewModels.Trailer;
+using static VAndDCargoes.Common.NotificationMessagesConstants;
 
 namespace VAndDCargoes.Web.Controllers;
 
@@ -43,11 +44,10 @@ public class TrailerController : BaseController
         try
         {
             await this.trailerService.AddTrailerAsync(model, userId);
+            TempData[SuccessMessage] = "You've successfully created a trailer!";
         }
         catch (Exception)
         {
-            this.ModelState.AddModelError("Add trailer", "Invalid data!");
-
             return View(model);
         }
 
@@ -104,11 +104,10 @@ public class TrailerController : BaseController
         try
         {
             await this.trailerService.EditTrailerAsync(model, id);
+            TempData[SuccessMessage] = "You've successfully edited your trailer!";
         }
         catch (Exception)
         {
-            this.ModelState.AddModelError("Edit trailer", "Invalid data!");
-
             return View(model);
         }
 
@@ -120,11 +119,10 @@ public class TrailerController : BaseController
         try
         {
             await this.trailerService.DeleteTrailerByIdAsync(id);
+            TempData[SuccessMessage] = "You've successfully deleted your trailer!";
         }
         catch (Exception)
         {
-            this.ModelState.AddModelError("Delete trailer", "The operaation wasn't succesful!");
-
             return RedirectToAction("Details", "Trailer");
         }
 
@@ -156,6 +154,7 @@ public class TrailerController : BaseController
         if (await this.trailerService.IsUserAlreadyDrivingTrailerByIdAsync(userId, id) &&
             await this.trailerService.DriveTrailerByIdASync(userId, id))
         {
+            TempData[InformationMessage] = "You're now using this trailer!";
             return RedirectToAction("DrivenTrailers", "Trailer");
         }
 
@@ -169,6 +168,7 @@ public class TrailerController : BaseController
         if (!await this.trailerService.IsUserAlreadyDrivingTrailerByIdAsync(userId, id) &&
             await this.trailerService.ReleaseTrailerByIdAsync(userId, id))
         {
+            TempData[InformationMessage] = "You've successfully released the trailer!";
             return RedirectToAction("All", "Trailer");
         }
 

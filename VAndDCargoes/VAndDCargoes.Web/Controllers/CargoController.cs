@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using VAndDCargoes.Services.Contracts;
 using VAndDCargoes.Web.ViewModels.Cargo;
+using static VAndDCargoes.Common.NotificationMessagesConstants;
 
 namespace VAndDCargoes.Web.Controllers;
 
@@ -42,11 +43,10 @@ public class CargoController : BaseController
         try
         {
             await this.cargoService.AddCargoAsync(model, userId);
+            TempData[SuccessMessage] = "You've successfully added new cargo!";
         }
         catch (Exception)
         {
-            this.ModelState.AddModelError("Add cargo", "Invalid data!");
-
             return View(model);
         }
 
@@ -112,10 +112,10 @@ public class CargoController : BaseController
         try
         {
             await this.cargoService.EditCargoAsync(model, id);
+            TempData[SuccessMessage] = "You've successfully edited your cargo!";
         }
         catch (Exception)
         {
-            this.ModelState.AddModelError(nameof(model), "Invalid data!");
             return View(model);
         }
 
@@ -127,11 +127,10 @@ public class CargoController : BaseController
         try
         {
             await this.cargoService.DeleteCargoByIdAsync(id);
+            TempData[SuccessMessage] = "You've successfully deleted your cargo!";
         }
         catch (Exception)
         {
-            this.ModelState.AddModelError("Delete cargo", "The operation wasn't successful!");
-
             return RedirectToAction("Details", "Cargo");
         }
 
@@ -163,6 +162,7 @@ public class CargoController : BaseController
         if (await this.cargoService.IsCargoStillDelivering(userId, id) &&
             await this.cargoService.DeliverCargoByIdAsync(userId, id))
         {
+            TempData[InformationMessage] = "You're now delivering a cargo!";
             return RedirectToAction("DeliveringCargoes", "Cargo");
         }
 
@@ -176,6 +176,7 @@ public class CargoController : BaseController
         if (!await this.cargoService.IsCargoStillDelivering(userId, id) &&
             await this.cargoService.FinishDeliveringOfCargoByIdAsync(userId, id))
         {
+            TempData[InformationMessage] = "You've successfully released the cargo!";
             return RedirectToAction("All", "Cargo");
         }
 

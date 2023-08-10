@@ -11,6 +11,10 @@ public class VAndDCargoesDbContext : IdentityDbContext<ApplicationUser, Identity
     public VAndDCargoesDbContext(DbContextOptions<VAndDCargoesDbContext> options)
         : base(options)
     {
+        if (!this.Database.IsRelational())
+        {
+            this.Database.EnsureCreated(); 
+        }
     }
 
     public DbSet<Truck> Trucks { get; set; } = null!;

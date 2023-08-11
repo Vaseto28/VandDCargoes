@@ -11,6 +11,7 @@ public class Cargo
         this.Id = Guid.NewGuid();
 
         this.DriversCargoes = new HashSet<DriversCargoes>();
+        this.Courses = new HashSet<Course>();
     }
 
     [Key]
@@ -41,5 +42,7 @@ public class Cargo
     public virtual ApplicationUser Creator { get; set; } = null!;
 
     public virtual ICollection<DriversCargoes> DriversCargoes { get; set; } = null!;
+
+    public virtual ICollection<Course> Courses { get; set; } = null!;
 }
 

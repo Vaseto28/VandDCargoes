@@ -12,6 +12,7 @@ public class Driver
         this.DriversTrucks = new HashSet<DriversTrucks>();
         this.DriversTrailers = new HashSet<DriversTrailers>();
         this.DriversCargoes = new HashSet<DriversCargoes>();
+        this.Courses = new HashSet<Course>();
     }
 
     [Key]
@@ -35,6 +36,8 @@ public class Driver
     [MaxLength(PhoneNumberMaxLength)]
     public string PhoneNumber { get; set; } = null!;
 
+    public decimal Ballance { get; set; }
+
     public Guid UserId { get; set; }
 
     public virtual ApplicationUser User { get; set; } = null!;
@@ -44,5 +47,7 @@ public class Driver
     public virtual ICollection<DriversTrailers> DriversTrailers { get; set; } = null!;
 
     public virtual ICollection<DriversCargoes> DriversCargoes { get; set; } = null!;
+
+    public virtual ICollection<Course> Courses { get; set; } = null!;
 }
 

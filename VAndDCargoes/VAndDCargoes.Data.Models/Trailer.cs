@@ -10,6 +10,7 @@ public class Trailer
         this.Id = Guid.NewGuid();
 
         this.DriversTrailers = new HashSet<DriversTrailers>();
+        this.Courses = new HashSet<Course>();
     }
 
     [Key]
@@ -35,5 +36,7 @@ public class Trailer
     public virtual ApplicationUser Creator { get; set; } = null!;
 
     public virtual ICollection<DriversTrailers> DriversTrailers { get; set; } = null!;
+
+    public virtual ICollection<Course> Courses { get; set; } = null!;
 }
 

@@ -61,5 +61,17 @@ public static class EntitiesValidations
         public const int PasswordMinLength = 8;
         public const int PasswordMaxLength = 100;
     }
+
+    public static class Course
+    {
+        public const int DepartureCityMinLength = 2;
+        public const int DepartureCityMaxLength = 40;
+        public const int ArrivalCityMinLength = 2;
+        public const int ArrivalCityMaxLength = 40;
+        public const int PaymentMinValue = 1000;
+        public const int PaymentMaxValue = 10000;
+        public const int DistanceMinValue = 10;
+        public const int DistanceMaxValue = 10000;
+    }
 }
 

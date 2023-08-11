@@ -91,40 +91,7 @@ public class TrailerService : ITrailerService
         IQueryable<Trailer> trailersQuery = this.dbCtx.Trailers
             .AsQueryable();
 
-        trailersQuery = queryModel.TrailersOrdering switch
-        {
-            TrailersOrdering.ByCategory => trailersQuery
-                .OrderBy(x => (int)x.Category),
-            TrailersOrdering.ByCapacityAscending => trailersQuery
-                .OrderBy(x => x.Capacity),
-            TrailersOrdering.ByCapacityDescending => trailersQuery
-                .OrderByDescending(x => x.Capacity),
-            TrailersOrdering.ByConditionAscending => trailersQuery
-                .OrderBy(x => (int)x.Condition),
-            TrailersOrdering.ByConditionDescending => trailersQuery
-                .OrderByDescending(x => (int)x.Condition),
-            TrailersOrdering.ByDementionAscending => trailersQuery
-                .OrderBy(x => (int)x.Dementions),
-            TrailersOrdering.ByDementionDescending => trailersQuery
-                .OrderByDescending(x => (int)x.Dementions),
-            _ => throw new NotImplementedException()
-        };
-
-        IEnumerable<TrailerAllViewModel> trailers = await trailersQuery
-            .Skip((queryModel.CurrentPage - 1) * queryModel.TrailersPerPage)
-            .Take(queryModel.TrailersPerPage)
-            .Select(x => new TrailerAllViewModel()
-            {
-                Id = x.Id.ToString(),
-                Capacity = x.Capacity,
-                Category = x.Category.ToString(),
-                Condition = x.Condition.ToString(),
-                Dementions = x.Dementions.ToString(),
-                ImageUrl = x.ImageUrl
-            })
-            .ToArrayAsync();
-
-        return trailers;
+        return await this.ModifyTheQuery(trailersQuery, queryModel);
     }
 
     public async Task<IEnumerable<TrailerAllViewModel>> GetAllTrailersCreatedByUserByIdAsync(string userId, TrailerQueryAllViewModel queryModel)
@@ -133,40 +100,7 @@ public class TrailerService : ITrailerService
             .Where(x => x.CreatorId.ToString().Equals(userId))
             .AsQueryable();
 
-        trailersQuery = queryModel.TrailersOrdering switch
-        {
-            TrailersOrdering.ByCategory => trailersQuery
-                .OrderBy(x => (int)x.Category),
-            TrailersOrdering.ByCapacityAscending => trailersQuery
-                .OrderBy(x => x.Capacity),
-            TrailersOrdering.ByCapacityDescending => trailersQuery
-                .OrderByDescending(x => x.Capacity),
-            TrailersOrdering.ByConditionAscending => trailersQuery
-                .OrderBy(x => (int)x.Condition),
-            TrailersOrdering.ByConditionDescending => trailersQuery
-                .OrderByDescending(x => (int)x.Condition),
-            TrailersOrdering.ByDementionAscending => trailersQuery
-                .OrderBy(x => (int)x.Dementions),
-            TrailersOrdering.ByDementionDescending => trailersQuery
-                .OrderByDescending(x => (int)x.Dementions),
-            _ => throw new NotImplementedException()
-        };
-
-        IEnumerable<TrailerAllViewModel> trailers = await trailersQuery
-            .Skip((queryModel.CurrentPage - 1) * queryModel.TrailersPerPage)
-            .Take(queryModel.TrailersPerPage)
-            .Select(x => new TrailerAllViewModel()
-            {
-                Id = x.Id.ToString(),
-                Capacity = x.Capacity,
-                Category = x.Category.ToString(),
-                Condition = x.Condition.ToString(),
-                Dementions = x.Dementions.ToString(),
-                ImageUrl = x.ImageUrl
-            })
-            .ToArrayAsync();
-
-        return trailers;
+        return await this.ModifyTheQuery(trailersQuery, queryModel);
     }
 
     public async Task<IEnumerable<TrailerAllViewModel>> GetAllTrailersDrivenByUserByIdAsync(string userId)
@@ -291,6 +225,42 @@ public class TrailerService : ITrailerService
         }
 
         return false;
+    }
+
+    private async Task<IEnumerable<TrailerAllViewModel>> ModifyTheQuery(IQueryable<Trailer> trailersQuery, TrailerQueryAllViewModel queryModel)
+    {
+        trailersQuery = queryModel.TrailersOrdering switch
+        {
+            TrailersOrdering.ByCategory => trailersQuery
+                .OrderBy(x => (int)x.Category),
+            TrailersOrdering.ByCapacityAscending => trailersQuery
+                .OrderBy(x => x.Capacity),
+            TrailersOrdering.ByCapacityDescending => trailersQuery
+                .OrderByDescending(x => x.Capacity),
+            TrailersOrdering.ByConditionAscending => trailersQuery
+                .OrderBy(x => (int)x.Condition),
+            TrailersOrdering.ByConditionDescending => trailersQuery
+                .OrderByDescending(x => (int)x.Condition),
+            TrailersOrdering.ByDementionAscending => trailersQuery
+                .OrderBy(x => (int)x.Dementions),
+            TrailersOrdering.ByDementionDescending => trailersQuery
+                .OrderByDescending(x => (int)x.Dementions),
+            _ => throw new NotImplementedException()
+        };
+
+        return await trailersQuery
+            .Skip((queryModel.CurrentPage - 1) * queryModel.TrailersPerPage)
+            .Take(queryModel.TrailersPerPage)
+            .Select(x => new TrailerAllViewModel()
+            {
+                Id = x.Id.ToString(),
+                Capacity = x.Capacity,
+                Category = x.Category.ToString(),
+                Condition = x.Condition.ToString(),
+                Dementions = x.Dementions.ToString(),
+                ImageUrl = x.ImageUrl
+            })
+            .ToArrayAsync();
     }
 }
 

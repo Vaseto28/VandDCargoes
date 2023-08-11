@@ -95,47 +95,7 @@ public class TruckService : ITruckService
         IQueryable<Truck> trucksQuery = this.dbCtx.Trucks
             .AsQueryable();
 
-        if (!string.IsNullOrWhiteSpace(queryModel.Keyword))
-        {
-            string wildCard = $"%{queryModel.Keyword.ToLower()}%";
-
-            trucksQuery = trucksQuery
-                .Where(x => EF.Functions.Like(x.Make, wildCard) ||
-                            EF.Functions.Like(x.Model, wildCard));
-        }
-
-        //TODO: Check if this functionality is working
-
-        trucksQuery = queryModel.TrucksOrdering switch
-        {
-            TrucksOrdering.Newest => trucksQuery
-                .OrderByDescending(x => x.CreatedOn),
-            TrucksOrdering.Oldest => trucksQuery
-                .OrderBy(x => x.CreatedOn),
-            TrucksOrdering.MakeAscending => trucksQuery
-                .OrderBy(x => x.Make),
-            TrucksOrdering.MakeDescending => trucksQuery
-                .OrderByDescending(x => x.Make),
-            //TrucksOrdering.FreeToDriveFirst => trucksQuery
-            //    .OrderBy(x => x.DriverId != null),
-            _ => throw new NotImplementedException()
-        };
-
-        IEnumerable<TruckAllViewModel> allTrucksModel = await trucksQuery
-            .Skip((queryModel.CurrentPage - 1) * queryModel.TrucksPerPage)
-            .Take(queryModel.TrucksPerPage)
-            .Select(x => new TruckAllViewModel()
-            {
-                Id = x.Id.ToString(),
-                Make = x.Make,
-                Model = x.Model,
-                FuelCapacity = x.FuelCapacity,
-                TravelledDistance = x.TraveledDistance,
-                ImageUrl = x.ImageUrl
-            })
-            .ToArrayAsync();
-
-        return allTrucksModel;
+        return await this.ModifyTheQuery(trucksQuery, queryModel);
     }
 
     public async Task<IEnumerable<TruckAllViewModel>> GetAllTrucksCreatedByUserByIdAsync(string id, TruckQueryAllModel queryModel)
@@ -144,45 +104,7 @@ public class TruckService : ITruckService
             .Where(x => x.CreatorId.ToString().Equals(id))
             .AsQueryable();
 
-        if (!string.IsNullOrWhiteSpace(queryModel.Keyword))
-        {
-            string wildCard = $"%{queryModel.Keyword.ToLower()}%";
-
-            trucksQuery = trucksQuery
-                .Where(x => EF.Functions.Like(x.Make, wildCard) ||
-                            EF.Functions.Like(x.Model, wildCard));
-        }
-
-        trucksQuery = queryModel.TrucksOrdering switch
-        {
-            TrucksOrdering.Newest => trucksQuery
-                .OrderByDescending(x => x.CreatedOn),
-            TrucksOrdering.Oldest => trucksQuery
-                .OrderBy(x => x.CreatedOn),
-            TrucksOrdering.MakeAscending => trucksQuery
-                .OrderBy(x => x.Make),
-            TrucksOrdering.MakeDescending => trucksQuery
-                .OrderByDescending(x => x.Make),
-            //TrucksOrdering.FreeToDriveFirst => trucksQuery
-            //    .OrderBy(x => x.DriverId != null),
-            _ => throw new NotImplementedException()
-        };
-
-        IEnumerable<TruckAllViewModel> allTrucksModel = await trucksQuery
-            .Skip((queryModel.CurrentPage - 1) * queryModel.TrucksPerPage)
-            .Take(queryModel.TrucksPerPage)
-            .Select(x => new TruckAllViewModel()
-            {
-                Id = x.Id.ToString(),
-                Make = x.Make,
-                Model = x.Model,
-                FuelCapacity = x.FuelCapacity,
-                TravelledDistance = x.TraveledDistance,
-                ImageUrl = x.ImageUrl
-            })
-            .ToArrayAsync();
-
-        return allTrucksModel;
+        return await this.ModifyTheQuery(trucksQuery, queryModel);
     }
 
     public async Task<IEnumerable<TruckAllViewModel>> GetAllTrucksDrivenByUserByIdAsync(string id)
@@ -302,6 +224,49 @@ public class TruckService : ITruckService
         this.dbCtx.DriversTrucks.Remove(driversTrucks);
         await this.dbCtx.SaveChangesAsync();
         return true;
+    }
+
+    private async Task<IEnumerable<TruckAllViewModel>> ModifyTheQuery(IQueryable<Truck> trucksQuery, TruckQueryAllModel queryModel)
+    {
+        if (!string.IsNullOrWhiteSpace(queryModel.Keyword))
+        {
+            string wildCard = $"%{queryModel.Keyword.ToLower()}%";
+
+            trucksQuery = trucksQuery
+                .Where(x => EF.Functions.Like(x.Make, wildCard) ||
+                            EF.Functions.Like(x.Model, wildCard));
+        }
+
+        trucksQuery = queryModel.TrucksOrdering switch
+        {
+            TrucksOrdering.Newest => trucksQuery
+                .OrderByDescending(x => x.CreatedOn),
+            TrucksOrdering.Oldest => trucksQuery
+                .OrderBy(x => x.CreatedOn),
+            TrucksOrdering.MakeAscending => trucksQuery
+                .OrderBy(x => x.Make),
+            TrucksOrdering.MakeDescending => trucksQuery
+                .OrderByDescending(x => x.Make),
+            //TrucksOrdering.FreeToDriveFirst => trucksQuery
+            //    .OrderBy(x => x.DriverId != null),
+            _ => throw new NotImplementedException()
+        };
+
+        IEnumerable<TruckAllViewModel> allTrucksModel = await trucksQuery
+            .Skip((queryModel.CurrentPage - 1) * queryModel.TrucksPerPage)
+            .Take(queryModel.TrucksPerPage)
+            .Select(x => new TruckAllViewModel()
+            {
+                Id = x.Id.ToString(),
+                Make = x.Make,
+                Model = x.Model,
+                FuelCapacity = x.FuelCapacity,
+                TravelledDistance = x.TraveledDistance,
+                ImageUrl = x.ImageUrl
+            })
+            .ToArrayAsync();
+
+        return allTrucksModel;
     }
 }
 

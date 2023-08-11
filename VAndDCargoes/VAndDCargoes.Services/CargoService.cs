@@ -113,96 +113,16 @@ public class CargoService : ICargoService
         IQueryable<Cargo> cargoesQuery = this.dbCtx.Cargoes
             .AsQueryable();
 
-        if (!string.IsNullOrWhiteSpace(model.Keyword))
-        {
-            string wildCard = $"%{model.Keyword.ToLower()}%";
-
-            cargoesQuery = cargoesQuery
-                .Where(x => EF.Functions.Like(x.Name, wildCard) ||
-                            EF.Functions.Like(x.Description, wildCard));
-        }
-
-        cargoesQuery = model.CargoesOrdering switch
-        {
-            CargoesOrdering.NameAscending => cargoesQuery
-                .OrderBy(x => x.Name),
-            CargoesOrdering.NameDescending => cargoesQuery
-                .OrderByDescending(x => x.Name),
-            CargoesOrdering.DescriptionLengthAscending => cargoesQuery
-                .OrderBy(x => x.Description),
-            CargoesOrdering.DescriptionLengthDescending => cargoesQuery
-                .OrderByDescending(x => x.Description),
-            CargoesOrdering.WeightAscending => cargoesQuery
-                .OrderBy(x => x.Weight),
-            CargoesOrdering.WeightDescending => cargoesQuery
-            .OrderByDescending(x => x.Weight),
-            _ => throw new NotImplementedException()
-        };
-
-        IEnumerable<CargoAllViewModel> cargoes = await cargoesQuery
-            .Skip((model.CurrentPage - 1) * model.CargoesPerPage)
-            .Take(model.CargoesPerPage)
-            .Select(x => new CargoAllViewModel()
-            {
-                Id = x.Id.ToString(),
-                Name = x.Name,
-                Description = x.Description,
-                Weight = x.Weight,
-                Category = x.Category.ToString(),
-                PhysicalState = x.PhysicalState.ToString(),
-                ImageUrl = x.ImageUrl
-            })
-            .ToArrayAsync();
-
-        return cargoes;
+        return await this.ModifyTheQuery(cargoesQuery, model);
     }
 
-    public async Task<IEnumerable<CargoAllViewModel>> GetAllCargoesCreatedByUserByIdAsync(CargoQueryAllViewModel querymodel, string userId)
+    public async Task<IEnumerable<CargoAllViewModel>> GetAllCargoesCreatedByUserByIdAsync(CargoQueryAllViewModel queryModel, string userId)
     {
         IQueryable<Cargo> cargoesQuery = this.dbCtx.Cargoes
             .Where(x => x.CreatorId.ToString().Equals(userId))
             .AsQueryable();
 
-        if (!string.IsNullOrWhiteSpace(querymodel.Keyword))
-        {
-            string wildCard = $"%{querymodel.Keyword.ToLower()}%";
-
-            cargoesQuery = cargoesQuery
-                .Where(x => EF.Functions.Like(x.Name, wildCard) ||
-                            EF.Functions.Like(x.Description, wildCard));
-        }
-
-        cargoesQuery = querymodel.CargoesOrdering switch
-        {
-            CargoesOrdering.NameAscending => cargoesQuery
-                .OrderBy(x => x.Name),
-            CargoesOrdering.NameDescending => cargoesQuery
-                .OrderByDescending(x => x.Name),
-            CargoesOrdering.DescriptionLengthAscending => cargoesQuery
-                .OrderBy(x => x.Description),
-            CargoesOrdering.DescriptionLengthDescending => cargoesQuery
-                .OrderByDescending(x => x.Description),
-            CargoesOrdering.WeightAscending => cargoesQuery
-                .OrderBy(x => x.Weight),
-            CargoesOrdering.WeightDescending => cargoesQuery
-            .OrderByDescending(x => x.Weight),
-            _ => throw new NotImplementedException()
-        };
-
-        return await cargoesQuery
-            .Skip((querymodel.CurrentPage - 1) * querymodel.CargoesPerPage)
-            .Take(querymodel.CargoesPerPage)
-            .Select(x => new CargoAllViewModel()
-            {
-                Id = x.Id.ToString(),
-                Name = x.Name,
-                Description = x.Description,
-                Weight = x.Weight,
-                Category = x.Category.ToString(),
-                PhysicalState = x.PhysicalState.ToString(),
-                ImageUrl = x.ImageUrl
-            })
-            .ToArrayAsync();
+        return await this.ModifyTheQuery(cargoesQuery, queryModel);
     }
 
     public async Task<IEnumerable<CargoAllViewModel>> GetAllCargoesDeliveringByUserByIdAsync(string userId)
@@ -298,6 +218,52 @@ public class CargoService : ICargoService
     public bool IsPhysicalStateValid(int physicalStateNum)
     {
         return physicalStateNum < PhysicalStateLowerBound || physicalStateNum > PhysicalStateUpperBound;
+    }
+
+    private async Task<IEnumerable<CargoAllViewModel>> ModifyTheQuery(IQueryable<Cargo> cargoesQuery, CargoQueryAllViewModel model)
+    {
+        if (!string.IsNullOrWhiteSpace(model.Keyword))
+        {
+            string wildCard = $"%{model.Keyword.ToLower()}%";
+
+            cargoesQuery = cargoesQuery
+                .Where(x => EF.Functions.Like(x.Name, wildCard) ||
+                            EF.Functions.Like(x.Description, wildCard));
+        }
+
+        cargoesQuery = model.CargoesOrdering switch
+        {
+            CargoesOrdering.NameAscending => cargoesQuery
+                .OrderBy(x => x.Name),
+            CargoesOrdering.NameDescending => cargoesQuery
+                .OrderByDescending(x => x.Name),
+            CargoesOrdering.DescriptionLengthAscending => cargoesQuery
+                .OrderBy(x => x.Description),
+            CargoesOrdering.DescriptionLengthDescending => cargoesQuery
+                .OrderByDescending(x => x.Description),
+            CargoesOrdering.WeightAscending => cargoesQuery
+                .OrderBy(x => x.Weight),
+            CargoesOrdering.WeightDescending => cargoesQuery
+            .OrderByDescending(x => x.Weight),
+            _ => throw new NotImplementedException()
+        };
+
+        IEnumerable<CargoAllViewModel> cargoes = await cargoesQuery
+            .Skip((model.CurrentPage - 1) * model.CargoesPerPage)
+            .Take(model.CargoesPerPage)
+            .Select(x => new CargoAllViewModel()
+            {
+                Id = x.Id.ToString(),
+                Name = x.Name,
+                Description = x.Description,
+                Weight = x.Weight,
+                Category = x.Category.ToString(),
+                PhysicalState = x.PhysicalState.ToString(),
+                ImageUrl = x.ImageUrl
+            })
+            .ToArrayAsync();
+
+        return cargoes;
     }
 }
 

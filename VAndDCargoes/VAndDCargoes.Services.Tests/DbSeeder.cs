@@ -1,8 +1,10 @@
 ﻿using VAndDCargoes.Data;
 using VAndDCargoes.Data.Models;
 using VAndDCargoes.Data.Models.Enumerations;
+using VAndDCargoes.Web.ViewModels.Cargo;
 using VAndDCargoes.Web.ViewModels.Driver;
 using VAndDCargoes.Web.ViewModels.Truck;
+using VAndDCargoes.Web.ViewModels.Trailer;
 
 namespace VAndDCargoes.Services.Tests;
 
@@ -12,14 +14,21 @@ public static class DbSeeder
     public static ApplicationUser User;
     public static Driver Driver;
 
+	public static Truck Truck;
 	public static TruckAddViewModel TruckAddViewModel;
+    public static TruckEditViewModel TruckEditViewModel;
 
 	public static ApplicationUser UserBecomingDriver;
 	public static BecomeDriverViewModel DriverToAdd;
 
-	public static Truck Truck;
 
-	public static void SeedDb(VAndDCargoesDbContext dbCtx)
+    public static CargoAddViewModel CargoAddViewModel;
+    public static CargoEditViewModel CargoEditViewModel;
+
+    public static TrailerAddViewModel TrailerAddViewModel;
+    public static TrailerEditViewModel TrailerEditViewModel;
+
+    public static void SeedDb(VAndDCargoesDbContext dbCtx)
 	{
 		DriverUser = new ApplicationUser()
 		{
@@ -99,8 +108,55 @@ public static class DbSeeder
 			ImageUrl = "https://www.daf.co.uk/-/media/images/daf-trucks/trucks/euro-6/daf-xf/2017035-daf-xf.jpg?mw=1200&rev=e21fa83ff62d405b9db95e6914c636e1&hash=5102BA118103505BCA802B2D812C22BD",
 			CreatedOn = "12/23/2009"
 		};
+        TruckEditViewModel = new TruckEditViewModel()
+        {
+            Make = "Daf",
+            Model = "XF-23",
+            RegistrationNumber = "PK 2876 TH",
+            Condition = 3,
+            FuelCapacity = 800,
+            TravelledDistance = 1000,
+            ImageUrl = "https://www.daf.co.uk/-/media/images/daf-trucks/trucks/euro-6/daf-xf/2017035-daf-xf.jpg?mw=1200&rev=e21fa83ff62d405b9db95e6914c636e1&hash=5102BA118103505BCA802B2D812C22BD",
+            CreatedOn = "11/23/2009"
+        };
 
-		dbCtx.Users.Add(DriverUser);
+        CargoAddViewModel = new CargoAddViewModel()
+        {
+            Name = "Woods",
+            Weight = 22,
+            PhysicalState = 1,
+            Category = 1,
+            Description = "Very very big woods, requiring driver with many expoiriences and very good truckm and trailer",
+            ImageUrl = "https://housing.com/news/wp-content/uploads/2023/04/What-is-timber-wood-and-which-are-the-best-types-f.jpg"
+        };
+        CargoEditViewModel = new CargoEditViewModel()
+        {
+            Name = "Wood",
+            Weight = 20,
+            PhysicalState = 1,
+            Category = 1,
+            Description = "Very big woods, which require driver with many expiriences and very good truck and trailer",
+            ImageUrl = "https://housing.com/news/wp-content/uploads/2023/04/What-is-timber-wood-and-which-are-the-best-types-f.jpg"
+        };
+
+        TrailerAddViewModel = new TrailerAddViewModel()
+        {
+            Capacity = 25,
+            Category = 2,
+            Condition = 1,
+            Dementions = 2,
+            ImageUrl = "https://www.kaufmantrailers.com/wp-content/uploads/2013/01/Standard-Equipment-Trailers.jpg"
+        };
+        TrailerEditViewModel = new TrailerEditViewModel()
+        {
+            Capacity = 20,
+            Category = 1,
+            Condition = 2,
+            Dementions = 2,
+            ImageUrl = "https://www.kaufmantrailers.com/wp-content/uploads/2013/01/Standard-Equipment-Trailers.jpg"
+        };
+
+        dbCtx.Users.Add(DriverUser);
 		dbCtx.Users.Add(User);
         dbCtx.Trucks.Add(Truck);
 

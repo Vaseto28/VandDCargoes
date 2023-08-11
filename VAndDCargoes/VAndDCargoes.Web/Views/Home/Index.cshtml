@@ -11,7 +11,7 @@
     <link src="~/css/homeStyles.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <script src="~/js/sliderScript.js"></script>
 </head>
-<body>
+<body style="background-color: lightgray">
     <h1 align="center">Welcome to V&D Cargoes LTD!</h1>
 
     <center>
@@ -34,12 +34,49 @@
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Previous</span>
             </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next" style="width: 8%"\>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next" style="width: 8%" \>
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Next</span>
             </button>
         </div>
+        <br />
+        <h2>Our services</h2>
+        <div class="row">
+            <div class="col">
+                <h5>Rent truck</h5>
+            </div>
+            <div class="col">
+                <h5>Rent trailer</h5>
+            </div>
+            <div class="col">
+                <h5>Deliver cargo</h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <img src="https://vallortrucks.es/images/nodes/tractora(8)-1280.jpg" style="width: 50%" />
+            </div>
+            <div class="col">
+                <img src="https://cdn1.tkographix.com/wp-content/uploads/2020/06/05114149/trailer-parking.jpg" style="width: 50%" />
+            </div>
+            <div class="col">
+                <img src="https://www.datacenterknowledge.com/sites/datacenterknowledge.com/files/styles/article_featured_retina/public/container-docker.jpg?itok=RMmzFWij" style="width: 60%" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <br />
+                <a asp-controller="Truck" asp-action="All" class="btn btn-success" style="background-color: coral">Available trucks</a>
+            </div>
+            <div class="col">
+                <br />
+                <a asp-controller="Trailer" asp-action="All" class="btn btn-success" style="background-color: coral">Available trailers</a>
+            </div>
+            <div class="col">
+                <br />
+                <a asp-controller="Cargo" asp-action="All" class="btn btn-success" style="background-color: coral">Available cargoes</a>
+            </div>
+        </div>
     </center>
-
 </body>
 </html>

@@ -40,6 +40,7 @@
     <None Remove="Views\Trailer\" />
     <None Remove="Views\Cargo\" />
     <None Remove="Views\User\" />
+    <None Remove="Views\Course\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Driver\" />
@@ -50,6 +51,7 @@
     <Folder Include="Views\Trailer\" />
     <Folder Include="Views\Cargo\" />
     <Folder Include="Views\User\" />
+    <Folder Include="Views\Course\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\js\" />

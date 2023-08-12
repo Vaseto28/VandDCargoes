@@ -144,6 +144,11 @@ public class TrailerController : BaseController
 
         IEnumerable<TrailerAllViewModel> trailers = await this.trailerService.GetAllTrailersDrivenByUserByIdAsync(userId);
 
+        if (trailers == null)
+        {
+            trailers = new List<TrailerAllViewModel>();
+        }
+
         return View(trailers);
     }
 
@@ -158,6 +163,7 @@ public class TrailerController : BaseController
             return RedirectToAction("DrivenTrailers", "Trailer");
         }
 
+        TempData[WarnMessage] = "You should become a driver in order to drive this trailer!";
         return RedirectToAction("All", "Trailer");
     }
 

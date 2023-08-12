@@ -31,6 +31,19 @@ public class DriverService : IDriverService
         await this.dbContext.SaveChangesAsync();
     }
 
+    public async Task<decimal> GetDriverBalance(string userId)
+    {
+        Driver? driver = await this.dbContext.Drivers
+            .FirstOrDefaultAsync(x => x.UserId.ToString().Equals(userId));
+
+        if (driver != null)
+        {
+            return Math.Round(driver.Ballance, 2);
+        }
+
+        return 0m;
+    }
+
     public async Task<string> GetTheFullNameOfDriverByUserIdAsync(string userId)
     {
         Driver? driver = await this.dbContext.Drivers

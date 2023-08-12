@@ -110,7 +110,7 @@ public class TrailerService : ITrailerService
 
         if (driver != null)
         {
-            return await this.dbCtx.DriversTrailers
+            IEnumerable<TrailerAllViewModel> trailers = await this.dbCtx.DriversTrailers
             .Where(x => x.DriverId.Equals(driver.Id))
             .Select(x => new TrailerAllViewModel()
             {
@@ -122,9 +122,16 @@ public class TrailerService : ITrailerService
                 ImageUrl = x.Trailer.ImageUrl
             })
             .ToArrayAsync();
+
+            if (trailers.Count() == 0)
+            {
+                return null!;
+            }
+
+            return trailers;
         }
 
-        return new List<TrailerAllViewModel>();
+        return null!;
     }
 
     public async Task<TrailerDetailsViewModel?> GetTrailerDetailsByIdAsync(string trailerId)

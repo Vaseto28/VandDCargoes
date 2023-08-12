@@ -9,5 +9,7 @@ public interface IDriverService
     Task BecomeDriverAsync(BecomeDriverViewModel model, string userId);
 
     Task<string> GetTheFullNameOfDriverByUserIdAsync(string userId);
+
+    Task<decimal> GetDriverBalance(string userId);
 }
 

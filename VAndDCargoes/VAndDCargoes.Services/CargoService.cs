@@ -46,6 +46,18 @@ public class CargoService : ICargoService
         }
     }
 
+    public async Task<Cargo> GetCargoByUserIdAsync(string userId)
+    {
+        Driver? driver = await this.dbCtx.Drivers.FirstOrDefaultAsync(x => x.UserId.ToString().Equals(userId));
+
+        if (driver != null)
+        {
+            return driver.DriversCargoes.ToList()[0].Cargo;
+        }
+
+        return null!;
+    }
+
     public async Task<bool> DeliverCargoByIdAsync(string userId, string cargoId)
     {
         Driver? driver = await this.dbCtx.Drivers
@@ -127,7 +139,12 @@ public class CargoService : ICargoService
 
     public async Task<IEnumerable<CargoAllViewModel>> GetAllCargoesDeliveringByUserByIdAsync(string userId)
     {
-        return await this.dbCtx.DriversCargoes
+        Driver? driver = await this.dbCtx.Drivers
+            .FirstOrDefaultAsync(x => x.UserId.ToString().Equals(userId));
+
+        if (driver != null)
+        {
+            IEnumerable<CargoAllViewModel> cargoes = await this.dbCtx.DriversCargoes
             .Where(x => x.Driver.UserId.ToString().Equals(userId))
             .Select(x => new CargoAllViewModel()
             {
@@ -140,6 +157,16 @@ public class CargoService : ICargoService
                 PhysicalState = x.Cargo.PhysicalState.ToString()
             })
             .ToArrayAsync();
+
+            if (cargoes.Count() == 0)
+            {
+                return null!;
+            }
+
+            return cargoes;
+        }
+
+        return null!;
     }
 
     public async Task<CargoDetailsViewModel?> GetCargoDetailsById(string id)

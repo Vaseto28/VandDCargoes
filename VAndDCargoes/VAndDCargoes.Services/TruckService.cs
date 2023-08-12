@@ -113,7 +113,7 @@ public class TruckService : ITruckService
 
         if (driver != null)
         {
-            return await this.dbCtx.DriversTrucks
+            IEnumerable<TruckAllViewModel> trucks = await this.dbCtx.DriversTrucks
             .Where(x => x.DriverId.Equals(driver.Id))
             .Select(x => new TruckAllViewModel()
             {
@@ -125,9 +125,16 @@ public class TruckService : ITruckService
                 ImageUrl = x.Truck.ImageUrl
             })
             .ToArrayAsync();
+
+            if (trucks.Count() == 0)
+            {
+                return null!;
+            }
+
+            return trucks;
         }
 
-        return new List<TruckAllViewModel>();
+        return null!;
     }
 
     public async Task<TruckEditViewModel?> GetTruckByIdForEditAsync(string truckId)

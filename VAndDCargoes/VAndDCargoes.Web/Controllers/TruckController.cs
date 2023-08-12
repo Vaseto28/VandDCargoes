@@ -158,6 +158,11 @@ public class TruckController : BaseController
 
         IEnumerable<TruckAllViewModel> model = await this.truckService.GetAllTrucksDrivenByUserByIdAsync(userId);
 
+        if (model == null)
+        {
+            model = new List<TruckAllViewModel>();
+        }
+
         return View(model);
     }
 
@@ -172,6 +177,7 @@ public class TruckController : BaseController
             return RedirectToAction("DrivenTrucks", "Truck");
         }
 
+        TempData[WarnMessage] = "You should become a driver in order to drive this truck!";
         return RedirectToAction("All", "Truck");
     }
 

@@ -46,18 +46,6 @@ public class CargoService : ICargoService
         }
     }
 
-    public async Task<Cargo> GetCargoByUserIdAsync(string userId)
-    {
-        Driver? driver = await this.dbCtx.Drivers.FirstOrDefaultAsync(x => x.UserId.ToString().Equals(userId));
-
-        if (driver != null)
-        {
-            return driver.DriversCargoes.ToList()[0].Cargo;
-        }
-
-        return null!;
-    }
-
     public async Task<bool> DeliverCargoByIdAsync(string userId, string cargoId)
     {
         Driver? driver = await this.dbCtx.Drivers

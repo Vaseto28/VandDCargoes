@@ -30,7 +30,5 @@ public interface ICargoService
     Task<bool> FinishDeliveringOfCargoByIdAsync(string userId, string cargoId);
 
     Task<bool> IsCargoStillDelivering(string userId, string cargoeId);
-
-    Task<Cargo> GetCargoByUserIdAsync(string userId);
 }
 

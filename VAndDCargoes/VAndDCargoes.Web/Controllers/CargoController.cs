@@ -152,6 +152,11 @@ public class CargoController : BaseController
 
         IEnumerable<CargoAllViewModel> cargoes = await this.cargoService.GetAllCargoesDeliveringByUserByIdAsync(userId);
 
+        if (cargoes == null)
+        {
+            cargoes = new List<CargoAllViewModel>();
+        }
+
         return View(cargoes);
     }
 
@@ -166,6 +171,7 @@ public class CargoController : BaseController
             return RedirectToAction("DeliveringCargoes", "Cargo");
         }
 
+        TempData[WarnMessage] = "You should become a driver in order to deliver this cargo!";
         return RedirectToAction("All", "Cargo");
     }
 

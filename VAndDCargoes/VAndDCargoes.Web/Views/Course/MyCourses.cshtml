@@ -1,0 +1,34 @@
+﻿@{
+    ViewData["Title"] = "My courses";
+}
+
+@model IEnumerable<AllCoursesViewModel>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/styles.css">
+</head>
+<body>
+    <header>
+        <h1 align="center">@ViewData["Title"]</h1>
+    </header>
+
+    @if (!this.Model.Any())
+    {
+        <p align="center">You haven't started any courses yet.</p>
+    }
+    else
+    {
+        <div class="row">
+            @foreach (var course in Model)
+            {
+                <partial name="_CoursePartial" model="@course" />
+            }
+        </div>
+    }
+</body>
+</html>

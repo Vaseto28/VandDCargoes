@@ -1,0 +1,74 @@
+﻿@{
+    ViewData["Title"] = "Take a course";
+}
+
+@model StartCourseViewModel
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@ViewData["Title"]</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+</head>
+<body>
+    <h1 align="center">@ViewData["Title"]:</h1>
+
+    <form asp-action="Start" method="post">
+        <div class="mb-3">
+            <label asp-for="@Model.DepartureCity" class="form-label-add-edit"></label>
+            <input asp-for="@Model.DepartureCity" class="form-control" aria-required="true" />
+            <span asp-validation-for="@Model.DepartureCity" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="@Model.ArrivalCity" class="form-label-add-edit"></label>
+            <input asp-for="@Model.ArrivalCity" class="form-control" aria-required="true" />
+            <span asp-validation-for="@Model.ArrivalCity" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="@Model.Distance" class="form-label-add-edit"></label>
+            <input asp-for="@Model.Distance" class="form-control" aria-required="true" />
+            <span asp-validation-for="@Model.Distance" class="text-danger"></span>
+        </div>
+        <div class="row">
+            <div align="justify" class="mb-3">
+                <label asp-for="@Model.TruckId"></label>
+                <select asp-for="@Model.TruckId" class="form-control" aria-required="true">
+                    @foreach (var truck in Model.Trucks)
+                    {
+                        <option value="@truck.Id">@truck.Make @truck.Model</option>
+                    }
+                </select>
+            </div>
+            <div align="justify" class="mb-3">
+                <label asp-for="@Model.TrailerId"></label>
+                <select asp-for="@Model.TrailerId" class="form-control" aria-required="true">
+                    @foreach (var trailer in Model.Trailers)
+                    {
+                        <option value="@trailer.Id">@trailer.Category trailer</option>
+                    }
+                </select>
+            </div>
+            <div align="justify" class="mb-3">
+                <label asp-for="@Model.CargoId"></label>
+                <select asp-for="@Model.CargoId" class="form-control" aria-required="true">
+                    @foreach (var cargo in Model.Cargoes)
+                    {
+                        <option value="@cargo.Id">@cargo.Name</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <br />
+
+        <div class="mb-3">
+            <input class="btn btn-warning mb-2 w-100 p-3 fw-bold" type="submit" value="Take" style="background-color: lightskyblue"/>
+        </div>
+        <br />
+    </form>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS" crossorigin="anonymous"></script>
+</body>
+</html>

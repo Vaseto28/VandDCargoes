@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@inject IDriverService driverService;
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -36,7 +38,10 @@
                                 <div class="dropdown">
                                     <button class="dropbtn">Truck operations</button>
                                     <div class="dropdown-content">
-                                        <a class="nav-link text-dark" asp-area="" asp-controller="Truck" asp-action="DrivenTrucks">Trucks, driven by @this.User.Identity.Name</a>
+                                        @if (await this.driverService.IsTheUseAlreadyDriverByIdAsync(this.User.FindFirstValue(ClaimTypes.NameIdentifier)))
+                                        {
+                                            <a class="nav-link text-dark" asp-area="" asp-controller="Truck" asp-action="DrivenTrucks">Trucks, driven by @this.User.Identity.Name</a>
+                                        }
                                         @if (this.User.IsInRole("Administrator") || this.User.IsInRole("Specialist"))
                                         {
                                             <a class="nav-link text-dark" asp-area="" asp-controller="Truck" asp-action="MyTrucks">Trucks, created by @this.User.Identity.Name</a>
@@ -50,7 +55,10 @@
                                 <div class="dropdown">
                                     <button class="dropbtn">Trailer operations</button>
                                     <div class="dropdown-content">
-                                        <a class="nav-link text-dark" asp-area="" asp-controller="Trailer" asp-action="DrivenTrailers">Trailers, driven by @this.User.Identity.Name</a>
+                                        @if (await this.driverService.IsTheUseAlreadyDriverByIdAsync(this.User.FindFirstValue(ClaimTypes.NameIdentifier)))
+                                        {
+                                            <a class="nav-link text-dark" asp-area="" asp-controller="Trailer" asp-action="DrivenTrailers">Trailers, driven by @this.User.Identity.Name</a>
+                                        }
                                         @if (this.User.IsInRole("Administrator") || this.User.IsInRole("Specialist"))
                                         {
                                             <a class="nav-link text-dark" asp-area="" asp-controller="Trailer" asp-action="MyTrailers">Trailers, created by @this.User.Identity.Name</a>
@@ -64,7 +72,10 @@
                                 <div class="dropdown">
                                     <button class="dropbtn">Cargo operations</button>
                                     <div class="dropdown-content">
-                                        <a class="nav-link text-dark" asp-area="" asp-controller="Cargo" asp-action="DeliveringCargoes">Cargoes, delivering by @this.User.Identity.Name</a>
+                                        @if (await this.driverService.IsTheUseAlreadyDriverByIdAsync(this.User.FindFirstValue(ClaimTypes.NameIdentifier)))
+                                        {
+                                            <a class="nav-link text-dark" asp-area="" asp-controller="Cargo" asp-action="DeliveringCargoes">Cargoes, delivering by @this.User.Identity.Name</a>
+                                        }
                                         @if (this.User.IsInRole("Administrator") || this.User.IsInRole("Specialist"))
                                         {
                                             <a class="nav-link text-dark" asp-area="" asp-controller="Cargo" asp-action="MyCargoes">Cargoes, created by @this.User.Identity.Name</a>
@@ -74,6 +85,15 @@
                                     </div>
                                 </div>
                             </li>
+                            @if (await this.driverService.IsTheUseAlreadyDriverByIdAsync(this.User.FindFirstValue(ClaimTypes.NameIdentifier)))
+                            {
+                                <li style="margin-right: 5px">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Course" asp-action="Start" style="background-color: lightblue">Take a course</a>
+                                </li>
+                                <li >
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Course" asp-action="MyCourses" style="background-color: lightblue">My courses</a>
+                                </li>
+                            }
                         }
                     </ul>
                     <partial name="_LoginPartial" />

@@ -1,0 +1,29 @@
+﻿@model AllCoursesViewModel
+
+@inject IDriverService driverService;
+
+@{
+    string driverName = await this.driverService.GetTheFullNameOfDriverByUserIdAsync(this.User.FindFirstValue(ClaimTypes.NameIdentifier));
+}
+
+<div class="col-md-4">
+    <div class="card mb-3">
+        <div class="card-body text-center">
+            <h2>@driverName</h2>
+
+            <h6>Departure city: <b>@Model.DepartureCity</b></h6>
+            <h6>Arrival city: <b>@Model.ArrivalCity</b></h6>
+            <h6>Distance: <b>@Model.Distance</b></h6>
+            <h6>Reweard: <b>@Model.Reward</b></h6>
+            <h6>Truck: <b>@Model.Truck</b></h6>
+            <h6>Cargo: <b>@Model.Cargo</b></h6>
+
+            <div class="col">
+                <form>
+                    <input asp-controller="Course" asp-action="Finish" asp-route-id="@Model.Id"
+                           class="btn btn-success" type="submit" value="Finish course" style="background-color: green" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

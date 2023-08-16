@@ -14,7 +14,7 @@
         }
         else
         {
-            <li class="nav-item" style="margin-top: 8px">Balance: @await this.driverService.GetDriverBalance(this.User.FindFirstValue(ClaimTypes.NameIdentifier))</li>
+            <li class="nav-item" style="margin-bottom: 8px; background-color: lightgreen">Balance: @await this.driverService.GetDriverBalance(this.User.FindFirstValue(ClaimTypes.NameIdentifier)) €</li>
         }
 
         <li class="nav-item">

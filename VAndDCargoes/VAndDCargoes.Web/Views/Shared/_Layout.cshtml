@@ -30,7 +30,7 @@
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
                             <a asp-controller="Home" asp-action="Index">
-                                <svg height="65" width="250">
+                                <svg height="65" width="100">
                                     <defs>
                                         <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
                                             <stop offset="0%"
@@ -49,7 +49,7 @@
                         </li>
                         @if (this.User?.Identity?.IsAuthenticated ?? false)
                         {
-                            <li class="nav-item">
+                            <li class="nav-item" style="margin-top: 8px">
                                 <div class="dropdown">
                                     <button class="dropbtn">Truck operations</button>
                                     <div class="dropdown-content">
@@ -66,7 +66,7 @@
                                     </div>
                                 </div>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item" style="margin-top: 8px">
                                 <div class="dropdown">
                                     <button class="dropbtn">Trailer operations</button>
                                     <div class="dropdown-content">
@@ -83,7 +83,7 @@
                                     </div>
                                 </div>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item" style="margin-top: 8px">
                                 <div class="dropdown">
                                     <button class="dropbtn">Cargo operations</button>
                                     <div class="dropdown-content">
@@ -102,10 +102,10 @@
                             </li>
                             @if (await this.driverService.IsTheUseAlreadyDriverByIdAsync(this.User.FindFirstValue(ClaimTypes.NameIdentifier)))
                             {
-                                <li style="margin-right: 5px">
+                                <li style="margin-right: 5px; margin-top: 8px">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Course" asp-action="Start" style="background-color: lightblue">Take a course</a>
                                 </li>
-                                <li>
+                                <li style="margin-top: 8px">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Course" asp-action="MyCourses" style="background-color: lightblue">My courses</a>
                                 </li>
                             }

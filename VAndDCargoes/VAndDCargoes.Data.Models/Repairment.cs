@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using VAndDCargoes.Data.Models.Enumerations;
 using static VAndDCargoes.Common.EntitiesValidations.Repairment;
 
 namespace VAndDCargoes.Data.Models;
@@ -9,12 +10,13 @@ public class Repairment
 	public int Id { get; set; }
 
 	[Required]
-	[MaxLength(TypeMaxLength)]
-	public string Type { get; set; } = null!;
+	public RepairmentAvailableTypes Type { get; set; }
 
 	[Required]
 	[MaxLength(DescriptionMaxLenght)]
 	public string Description { get; set; } = null!;
+
+	public int Quantity { get; set; }
 
 	public int Cost { get; set; }
 

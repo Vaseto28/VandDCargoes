@@ -11,6 +11,7 @@ public class ApplicationUser : IdentityUser<Guid>
         this.Trucks = new HashSet<Truck>();
         this.Trailers = new HashSet<Trailer>();
         this.Cargoes = new HashSet<Cargo>();
+        this.Repairments = new HashSet<Repairment>();
     }
 
     public virtual ICollection<Driver> Drivers { get; set; }
@@ -20,5 +21,7 @@ public class ApplicationUser : IdentityUser<Guid>
     public virtual ICollection<Trailer> Trailers { get; set; }
 
     public virtual ICollection<Cargo> Cargoes { get; set; }
+
+    public virtual ICollection<Repairment> Repairments { get; set; }
 }
 

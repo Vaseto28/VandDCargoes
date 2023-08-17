@@ -9,5 +9,7 @@ public interface IRepairmentService
     Task<bool> IsTruckConditionValidAsync(string truckId);
 
     Task<IEnumerable<AllRepairmentsViewModel>> GetAllRepairmentsByUserIdAsync(string userId);
+
+    int CalculateTheCostOfRepairmanetAsync(CreateRepairmentViewModel model);
 }
 

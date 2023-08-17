@@ -12,6 +12,6 @@ public interface IDriverService
 
     Task<decimal> GetDriverBalance(string userId);
 
-    Task SpendForRepairment(string userId, int cost);
+    Task<bool> SpendForRepairment(string userId, int cost);
 }
 

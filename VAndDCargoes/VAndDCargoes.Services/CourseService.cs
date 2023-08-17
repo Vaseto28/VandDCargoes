@@ -29,6 +29,7 @@ public class CourseService : ICourseService
             {
                 driver.Ballance += course.Reward;
                 course.Truck.TraveledDistance += course.Distance;
+                course.Truck.Condition += 1;
 
                 this.dbContext.DriversCargoes.Remove(driver.DriversCargoes.FirstOrDefault(x => x.CargoId.Equals(course.CargoId)));
 

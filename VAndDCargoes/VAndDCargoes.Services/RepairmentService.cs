@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using VAndDCargoes.Data;
 using VAndDCargoes.Data.Models;
+using VAndDCargoes.Data.Models.Enumerations;
 using VAndDCargoes.Services.Contracts;
 using VAndDCargoes.Web.ViewModels.Repairment;
 
@@ -15,6 +16,84 @@ public class RepairmentService : IRepairmentService
         this.dbContext = dbContext;
     }
 
+    public int CalculateTheCostOfRepairmanetAsync(CreateRepairmentViewModel model)
+    {
+        switch (model.Type)
+        {
+            case 0:
+                model.Cost = 200;
+                break;
+            case 1:
+                model.Cost = 250;
+                break;
+            case 2:
+                model.Cost = 50;
+                break;
+            case 3:
+                model.Cost = 50;
+                break;
+            case 4:
+                model.Cost = 75;
+                break;
+            case 5:
+                model.Cost = 90;
+                break;
+            case 6:
+                model.Cost = 90;
+                break;
+            case 7:
+                model.Cost = 80;
+                break;
+            case 8:
+                model.Cost = 470;
+                break;
+            case 9:
+                model.Cost = 500;
+                break;
+            case 10:
+                model.Cost = 1200;
+                break;
+            case 11:
+                model.Cost = 2480;
+                break;
+            case 12:
+                model.Cost = 25;
+                break;
+            case 13:
+                model.Cost = 15;
+                break;
+            case 14:
+                model.Cost = 300;
+                break;
+            case 15:
+                model.Cost = 320;
+                break;
+            case 16:
+                model.Cost = 700;
+                break;
+            case 17:
+                model.Cost = 520;
+                break;
+            case 18:
+                model.Cost = 490;
+                break;
+            case 19:
+                model.Cost = 50;
+                break;
+            case 20:
+                model.Cost = 60;
+                break;
+            case 21:
+                model.Cost = 90;
+                break;
+            case 22:
+                model.Cost = 110;
+                break;
+        }
+
+        return model.Quantity * model.Cost;
+    }
+
     public async Task<IEnumerable<AllRepairmentsViewModel>> GetAllRepairmentsByUserIdAsync(string userId)
     {
         return await this.dbContext.Repairments
@@ -22,8 +101,9 @@ public class RepairmentService : IRepairmentService
             .Select(x => new AllRepairmentsViewModel()
             {
                 Id = x.Id,
-                Type = x.Type,
+                Type = (int)x.Type,
                 Description = x.Description,
+                Quantity = x.Quantity,
                 Cost = x.Cost,
                 TruckId = x.MadeOn
             })
@@ -55,8 +135,9 @@ public class RepairmentService : IRepairmentService
 
         Repairment repairment = new Repairment()
         {
-            Type = model.Type,
+            Type = (RepairmentAvailableTypes)model.Type,
             Description = model.Description,
+            Quantity = model.Quantity,
             Cost = model.Cost,
             MadeOn = truck!.Make + " " + truck.Model,
             MechanicId = Guid.Parse(mechanicId)

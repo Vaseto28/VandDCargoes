@@ -13,14 +13,14 @@ public class CreateRepairmentViewModel
 
 	[Required]
 	[Display(Name = "Repairment type")]
-	[StringLength(TypeMaxLength, MinimumLength = TypeMinLength)]
-	public string Type { get; set; } = null!;
+	public int Type { get; set; }
 
 	[Required]
 	[StringLength(DescriptionMaxLenght, MinimumLength = DescriptionMinLength)]
 	public string Description { get; set; } = null!;
 
-	[Range(CostMinValue, CostMaxValue)]
+	public int Quantity { get; set; }
+
 	public int Cost { get; set; }
 
 	[Required]

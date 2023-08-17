@@ -1,6 +1,34 @@
 ﻿@model CargoAllViewModel
 @inject IDriverService driverService;
 
+@{
+
+    switch (Model.Category)
+    {
+        case "Food":
+            Model.Category = "Food";
+            break;
+        case "Livestock":
+            Model.Category = "Livestock";
+            break;
+        case "Chemicals":
+            Model.Category = "Chemicals";
+            break;
+        case "FlamebalSubstances":
+            Model.Category = "Flamable substances";
+            break;
+        case "Cars":
+            Model.Category = "Cars";
+            break;
+        case "EquipmentOrMachinery":
+            Model.Category = "Equipment or machinery";
+            break;
+        case "DryBulkCargo":
+            Model.Category = "Dry bulk cargo";
+            break;
+    }
+}
+
 <div class="col-md-4">
     <div class="card mb-3">
         <div class="card-body text-center">

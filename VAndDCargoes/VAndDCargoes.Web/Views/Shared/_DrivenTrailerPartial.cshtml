@@ -13,6 +13,10 @@
                     <a asp-controller="Trailer" asp-action="Details" asp-route-id="@Model.Id"
                        class="btn btn-success" style="background-color: blue">Details</a>
                 </div>
+                <div class="col">
+                    <a asp-controller="Repairment" asp-action="RepairTrailer" asp-route-id="@Model.Id"
+                       class="btn btn-success" style="background-color: lightsteelblue">Repair</a>
+                </div>
                 @if (await this.driverService.IsTheUseAlreadyDriverByIdAsync(this.User.FindFirstValue(ClaimTypes.NameIdentifier)))
                 {
                     <div class="col">

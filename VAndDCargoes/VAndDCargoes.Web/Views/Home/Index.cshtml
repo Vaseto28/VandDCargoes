@@ -51,6 +51,9 @@
             <div class="col">
                 <h5>Deliver cargo</h5>
             </div>
+            <div class="col">
+                <h5>Repair your truck and trailer</h5>
+            </div>
         </div>
         <div class="row">
             <div class="col">
@@ -61,6 +64,9 @@
             </div>
             <div class="col">
                 <img src="https://www.datacenterknowledge.com/sites/datacenterknowledge.com/files/styles/article_featured_retina/public/container-docker.jpg?itok=RMmzFWij" style="width: 60%" />
+            </div>
+            <div class="col">
+                <img src="https://images.squarespace-cdn.com/content/v1/62935d7f57d9c84eea85d0ac/0a7e679e-de35-4807-b7da-ca7626687643/Alpha+Mechanical+Harbourmaster+Mechanical+Services+Installation.jpg" style="width: 60%" />
             </div>
         </div>
         <div class="row">
@@ -75,6 +81,17 @@
             <div class="col">
                 <br />
                 <a asp-controller="Cargo" asp-action="All" class="btn btn-success" style="background-color: coral">Available cargoes</a>
+            </div>
+            <div class="col">
+                <br />
+                <div class="row">
+                    <div class="col">
+                        <a asp-controller="Truck" asp-action="DrivenTrucks" class="btn btn-success" style="background-color: coral">Repair truck</a>
+                    </div>
+                    <div class="col">
+                        <a asp-controller="Trailer" asp-action="DrivenTrailers" class="btn btn-success" style="background-color: coral">Repair trailer</a>
+                    </div>
+                </div>
             </div>
         </div>
         <br />

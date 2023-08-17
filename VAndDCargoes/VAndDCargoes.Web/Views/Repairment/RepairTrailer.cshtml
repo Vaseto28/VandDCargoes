@@ -1,0 +1,81 @@
+﻿@{
+    ViewData["Title"] = "Repair trailer";
+}
+
+@model CreateRepairmentOfTrailerViewModel
+
+<!doctype html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>@ViewData["Title"]</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+</head>
+<body>
+
+    <h1 align="center">@ViewData["Title"]</h1>
+
+
+    <form asp-action="RepairTrailer" method="post">
+
+        <div class="mb-3">
+            <label asp-for="@Model.Type"></label>
+            <select asp-for="@Model.Type" class="form-control" aria-required="true">
+                <option value="0">Front bumper - 200 EUR / per one</option>
+                <option value="1">Rear bumper - 250 EUR / per one</option>
+                <option value="2">Right headlight - 50 EUR / per one</option>
+                <option value="3">Left headlight - 50 EUR / per one</option>
+                <option value="4">Front additional light - 75 EUR / per one</option>
+                <option value="5">Right rear light - 90 EUR / per one</option>
+                <option value="6">Left rear light - 90 EUR / per one</option>
+                <option value="7">Tire - 80 EUR / per one</option>
+                <option value="8">King bolt - 470 EUR / per one</option>
+                <option value="9">Steering wheel - 500 EUR / per one</option>
+                <option value="10">Transmition - 1200 EUR / per one</option>
+                <option value="11">Crankshaft - 2480 EUR / per one</option>
+                <option value="12">Rubber bushing - 25 EUR / per one</option>
+                <option value="13">Spark plug - 15 EUR / per one</option>
+                <option value="14">Front bearer - 300 EUR / per one</option>
+                <option value="15">Rear bearer - 320 EUR / per one</option>
+                <option value="16">Clutch - 700 EUR / per one</option>
+                <option value="17">Clutch presureplate - 520 EUR / per one</option>
+                <option value="18">Breaking system - 490 EUR / per one</option>
+                <option value="19">Front pad - 50 EUR / per one</option>
+                <option value="20">Rear pad - 60 EUR / per one</option>
+                <option value="21">Front breaking disc - 90 EUR / per one</option>
+                <option value="22">Rear breaking disc - 110 EUR / per one</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label asp-for="@Model.Description" class="form-label-add-edit"></label>
+            <input asp-for="@Model.Description" class="form-control" aria-required="true" />
+            <span asp-validation-for="@Model.Description" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="@Model.Quantity" class="form-label-add-edit"></label>
+            <input asp-for="@Model.Quantity" value="1" class="form-control" aria-required="true" />
+            <span asp-validation-for="@Model.Quantity" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="@Model.TrailerId"></label>
+            <select asp-for="@Model.TrailerId" class="form-control" aria-required="true">
+                @foreach (var trailer in Model.Trailers)
+                {
+                    <option value="@trailer.Id">@trailer.Category</option>
+                }
+            </select>
+        </div>
+        <div class="mb-3">
+            <input class="btn btn-warning mb-2 w-100 p-3 fw-bold" type="submit" value="Repair" />
+        </div>
+    </form>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS" crossorigin="anonymous"></script>
+</body>
+</html>

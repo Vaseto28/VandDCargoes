@@ -16,6 +16,10 @@
                        class="btn btn-success" style="background-color: blue">Details</a>
                 </div>
                 <div class="col">
+                    <a asp-controller="Repairment" asp-action="Repair" asp-route-id="@Model.Id"
+                       class="btn btn-success" style="background-color: lightsteelblue">Repair</a>
+                </div>
+                <div class="col">
                     <form>
                         <input asp-controller="Truck" asp-action="Release" asp-route-id="@Model.Id"
                                class="btn btn-success" type="submit" value="Release this truck" style="background-color: lightsalmon" />

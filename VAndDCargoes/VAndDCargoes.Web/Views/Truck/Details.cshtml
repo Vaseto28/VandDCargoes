@@ -49,17 +49,17 @@
             </table>
         </div>
 
-        <a asp-controller="Truck" asp-action="All" class="btn btn-warning mb-2 w-100 p-3 fw-bold">All trucks</a>
-
         @if (this.User.Claims.ToList()[2].Value.ToLower() == Model.CreatorEmail)
         {
+            <a asp-controller="Repairment" asp-action="Repair" asp-route-id="@Model.Id" class="btn btn-warning mb-2 w-100 p-3 fw-bold" style="background-color: lightyellow">Repair</a>
             <a asp-controller="Truck" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning mb-2 w-100 p-3 fw-bold" style="background-color: darkorange">Edit</a>
             <a asp-controller="Truck" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-warning mb-2 w-100 p-3 fw-bold" style="background-color: red">Delete</a>
         }
         else
         {
-            <a asp-controller="Truck" asp-action="Drive" class="btn btn-warning mb-2 w-100 p-3 fw-bold" style="background-color: green">Drive this truck</a>
+            <a asp-controller="Truck" asp-action="Drive" asp-route-id="@Model.Id" class="btn btn-warning mb-2 w-100 p-3 fw-bold" style="background-color: green">Drive this truck</a>
         }
+        <a asp-controller="Truck" asp-action="All" class="btn btn-warning mb-2 w-100 p-3 fw-bold">All trucks</a>
 
     </div>
 </div>

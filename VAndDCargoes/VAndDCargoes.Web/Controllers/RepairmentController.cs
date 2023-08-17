@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using VAndDCargoes.Services.Contracts;
 using VAndDCargoes.Web.ViewModels.Repairment;
+using static VAndDCargoes.Common.NotificationMessagesConstants;
 
 namespace VAndDCargoes.Web.Controllers;
 
@@ -33,24 +34,29 @@ public class RepairmentController : BaseController
     [HttpPost]
     public async Task<IActionResult> Repair(CreateRepairmentViewModel model)
     {
-        string mechanicId = this.GetUserId();
-
         if (!await this.repairmentService.IsTruckConditionValidAsync(model.TruckId.ToString()) || !this.ModelState.IsValid)
         {
-            TempData["ErrorMessage"] = "This truck is in perfect condition!";
+            TempData[ErrorMessage] = "This truck is in perfect condition!";
 
             return View(model);
         }
 
+        string mechanicId = this.GetUserId();
+
         try
         {
+            if (!await this.driverService.SpendForRepairment(mechanicId, this.repairmentService.CalculateTheCostOfRepairmanetAsync(model)))
+            {
+                TempData[ErrorMessage] = $"Insufficient balance!";
+                return View(model);
+            }
+            
             await this.repairmentService.RepairTruckAsync(mechanicId, model);
-            await this.driverService.SpendForRepairment(mechanicId, model.Cost);
-            TempData["SuccessMessage"] = "You successfully repaired your truck!";
+            TempData[SuccessMessage] = $"You successfully repaired your truck! Total price was: {model.Cost * model.Quantity} EUR";
         }
         catch (Exception)
         {
-            TempData["ErrorMessage"] = "Something happened while repairing your truck!";
+            TempData[ErrorMessage] = "Something happened while repairing your truck!";
             return View(model);
         }
 

@@ -11,5 +11,7 @@ public interface IDriverService
     Task<string> GetTheFullNameOfDriverByUserIdAsync(string userId);
 
     Task<decimal> GetDriverBalance(string userId);
+
+    Task SpendForRepairment(string userId, int cost);
 }
 

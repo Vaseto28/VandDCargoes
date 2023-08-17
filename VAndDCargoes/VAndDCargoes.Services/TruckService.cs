@@ -52,7 +52,7 @@ public class TruckService : ITruckService
     {
         Driver? driver = await this.dbCtx.Drivers.FirstOrDefaultAsync(x => x.UserId.ToString().Equals(userId));
 
-        if (await this.dbCtx.Trucks.FindAsync(Guid.Parse(truckId)) != null &&
+        if (await this.dbCtx.Trucks.FirstOrDefaultAsync(x => x.Id.ToString().Equals(truckId)) != null &&
             driver != null)
         {
             DriversTrucks driversTrucks = new DriversTrucks()

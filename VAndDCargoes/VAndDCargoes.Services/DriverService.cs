@@ -66,5 +66,18 @@ public class DriverService : IDriverService
 
         return false;
     }
+
+    public async Task SpendForRepairment(string userId, int cost)
+    {
+        Driver? driver = await this.dbContext.Drivers
+            .FirstOrDefaultAsync(x => x.UserId.ToString().Equals(userId));
+
+        if (driver != null)
+        {
+            driver.Ballance -= cost;
+        }
+
+        await this.dbContext.SaveChangesAsync();
+    }
 }
 

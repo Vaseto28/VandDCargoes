@@ -12,8 +12,8 @@ using VAndDCargoes.Data;
 namespace VAndDCargoes.Web.Migrations
 {
     [DbContext(typeof(VAndDCargoesDbContext))]
-    [Migration("20230816112415_AddedRepairmentEntity")]
-    partial class AddedRepairmentEntity
+    [Migration("20230817090732_CreatedRepairmentEntity")]
+    partial class CreatedRepairmentEntity
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -424,12 +424,22 @@ namespace VAndDCargoes.Web.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
+                    b.Property<Guid>("MechanicId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Quantity")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(1);
+
+                    b.Property<int>("Type")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("MechanicId");
 
                     b.ToTable("Repairments");
                 });
@@ -686,6 +696,17 @@ namespace VAndDCargoes.Web.Migrations
                     b.Navigation("Truck");
                 });
 
+            modelBuilder.Entity("VAndDCargoes.Data.Models.Repairment", b =>
+                {
+                    b.HasOne("VAndDCargoes.Data.Models.ApplicationUser", "Mechanic")
+                        .WithMany("Repairments")
+                        .HasForeignKey("MechanicId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Mechanic");
+                });
+
             modelBuilder.Entity("VAndDCargoes.Data.Models.Trailer", b =>
                 {
                     b.HasOne("VAndDCargoes.Data.Models.ApplicationUser", "Creator")
@@ -713,6 +734,8 @@ namespace VAndDCargoes.Web.Migrations
                     b.Navigation("Cargoes");
 
                     b.Navigation("Drivers");
+
+                    b.Navigation("Repairments");
 
                     b.Navigation("Trailers");
 

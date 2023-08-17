@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using VAndDCargoes.Services.Contracts;
+using VAndDCargoes.Web.ViewModels.Repairment;
 using VAndDCargoes.Web.ViewModels.Truck;
 using static VAndDCargoes.Common.NotificationMessagesConstants;
 

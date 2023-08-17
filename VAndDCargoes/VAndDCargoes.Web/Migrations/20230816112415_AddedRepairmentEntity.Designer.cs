@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VAndDCargoes.Data;
 
@@ -11,9 +12,10 @@ using VAndDCargoes.Data;
 namespace VAndDCargoes.Web.Migrations
 {
     [DbContext(typeof(VAndDCargoesDbContext))]
-    partial class VAndDCargoesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230816112415_AddedRepairmentEntity")]
+    partial class AddedRepairmentEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -263,7 +265,7 @@ namespace VAndDCargoes.Web.Migrations
 
                     b.HasIndex("CreatorId");
 
-                    b.ToTable("Cargoes", (string)null);
+                    b.ToTable("Cargoes");
                 });
 
             modelBuilder.Entity("VAndDCargoes.Data.Models.Course", b =>
@@ -310,7 +312,7 @@ namespace VAndDCargoes.Web.Migrations
 
                     b.HasIndex("TruckId");
 
-                    b.ToTable("Courses", (string)null);
+                    b.ToTable("Courses");
                 });
 
             modelBuilder.Entity("VAndDCargoes.Data.Models.Driver", b =>
@@ -354,7 +356,7 @@ namespace VAndDCargoes.Web.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Drivers", (string)null);
+                    b.ToTable("Drivers");
                 });
 
             modelBuilder.Entity("VAndDCargoes.Data.Models.DriversCargoes", b =>
@@ -369,7 +371,7 @@ namespace VAndDCargoes.Web.Migrations
 
                     b.HasIndex("CargoId");
 
-                    b.ToTable("DriversCargoes", (string)null);
+                    b.ToTable("DriversCargoes");
                 });
 
             modelBuilder.Entity("VAndDCargoes.Data.Models.DriversTrailers", b =>
@@ -384,7 +386,7 @@ namespace VAndDCargoes.Web.Migrations
 
                     b.HasIndex("TrailerId");
 
-                    b.ToTable("DriversTrailers", (string)null);
+                    b.ToTable("DriversTrailers");
                 });
 
             modelBuilder.Entity("VAndDCargoes.Data.Models.DriversTrucks", b =>
@@ -399,7 +401,7 @@ namespace VAndDCargoes.Web.Migrations
 
                     b.HasIndex("TruckId");
 
-                    b.ToTable("DriversTrucks", (string)null);
+                    b.ToTable("DriversTrucks");
                 });
 
             modelBuilder.Entity("VAndDCargoes.Data.Models.Repairment", b =>
@@ -422,9 +424,6 @@ namespace VAndDCargoes.Web.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("MechanicId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Type")
                         .IsRequired()
                         .HasMaxLength(30)
@@ -432,9 +431,7 @@ namespace VAndDCargoes.Web.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MechanicId");
-
-                    b.ToTable("Repairments", (string)null);
+                    b.ToTable("Repairments");
                 });
 
             modelBuilder.Entity("VAndDCargoes.Data.Models.Trailer", b =>
@@ -470,7 +467,7 @@ namespace VAndDCargoes.Web.Migrations
 
                     b.HasIndex("CreatorId");
 
-                    b.ToTable("Trailers", (string)null);
+                    b.ToTable("Trailers");
                 });
 
             modelBuilder.Entity("VAndDCargoes.Data.Models.Truck", b =>
@@ -521,7 +518,7 @@ namespace VAndDCargoes.Web.Migrations
 
                     b.HasIndex("CreatorId");
 
-                    b.ToTable("Trucks", (string)null);
+                    b.ToTable("Trucks");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -689,17 +686,6 @@ namespace VAndDCargoes.Web.Migrations
                     b.Navigation("Truck");
                 });
 
-            modelBuilder.Entity("VAndDCargoes.Data.Models.Repairment", b =>
-                {
-                    b.HasOne("VAndDCargoes.Data.Models.ApplicationUser", "Mechanic")
-                        .WithMany("Repairments")
-                        .HasForeignKey("MechanicId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Mechanic");
-                });
-
             modelBuilder.Entity("VAndDCargoes.Data.Models.Trailer", b =>
                 {
                     b.HasOne("VAndDCargoes.Data.Models.ApplicationUser", "Creator")
@@ -727,8 +713,6 @@ namespace VAndDCargoes.Web.Migrations
                     b.Navigation("Cargoes");
 
                     b.Navigation("Drivers");
-
-                    b.Navigation("Repairments");
 
                     b.Navigation("Trailers");
 

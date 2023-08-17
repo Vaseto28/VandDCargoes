@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using VAndDCargoes.Services.Contracts;
+using VAndDCargoes.Services.Models;
 using VAndDCargoes.Web.ViewModels.Course;
 using static VAndDCargoes.Common.NotificationMessagesConstants;
 
@@ -72,11 +73,17 @@ public class CourseController : BaseController
 
         try
         {
-            await this.courseService.TakeTheCourseAsync(userId, model);
+            if (!await this.courseService.TakeTheCourseAsync(userId, model))
+            {
+                TempData[ErrorMessage] = $"Your current truck's condition doesn't allow to start the course! In order to start the course please repair your truck!";
+                return View(model);
+            }
+            
             TempData[SuccessMessage] = $"You successfully took a course from {model.DepartureCity} to {model.ArrivalCity}";
         }
         catch (Exception)
         {
+            TempData[ErrorMessage] = "Something happened while starting the course! Please try again later.";
             return this.View(model);
         }
 
@@ -98,8 +105,10 @@ public class CourseController : BaseController
 
         try
         {
-            decimal reward = await this.courseService.FinishCourseAsync(userId, id);
-            TempData[SuccessMessage] = $"You arrived at your destination and finished the course. Your balance was increased with {reward} EUR.";
+            DeleteCourseModel result = await this.courseService.FinishCourseAsync(userId, id);
+
+            await this.cargoService.DeleteCargoByIdAsync(result.CargoId);
+            TempData[SuccessMessage] = $"You arrived at your destination and finished the course. Your balance was increased with {result.Reward} EUR.";
         }
         catch (Exception)
         {

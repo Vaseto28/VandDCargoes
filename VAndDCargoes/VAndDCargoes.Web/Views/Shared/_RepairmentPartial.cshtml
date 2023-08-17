@@ -1,0 +1,20 @@
+﻿@model AllRepairmentsViewModel
+
+@inject IDriverService driverService;
+
+@{
+    string driverName = await this.driverService.GetTheFullNameOfDriverByUserIdAsync(this.User.FindFirstValue(ClaimTypes.NameIdentifier));
+}
+
+<div class="col-md-4">
+    <div class="card mb-3">
+        <div class="card-body text-center">
+            <h2>@driverName</h2>
+
+            <h6>Repairment type: <b>@Model.Type</b></h6>
+            <h6>Description: <b>@Model.Description</b></h6>
+            <h6>Cost: <b>@Model.Cost</b></h6>
+            <h6>Truck: <b>@Model.TruckId</b></h6>
+        </div>
+    </div>
+</div>

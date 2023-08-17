@@ -1,0 +1,34 @@
+﻿@{
+    ViewData["Title"] = "My repairments";
+}
+
+@model IEnumerable<AllRepairmentsViewModel>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/styles.css">
+</head>
+<body>
+    <header>
+        <h1 align="center">@ViewData["Title"]</h1>
+    </header>
+
+    @if (!this.Model.Any())
+    {
+        <p align="center">You dont't have any repairments yet.</p>
+    }
+    else
+    {
+        <div class="row">
+            @foreach (var repairment in Model)
+            {
+                <partial name="_RepairmentPartial" model="@repairment" />
+            }
+        </div>
+    }
+</body>
+</html>

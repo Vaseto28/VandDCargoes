@@ -76,12 +76,8 @@ public static class EntitiesValidations
 
     public static class Repairment
     {
-        public const int TypeMinLength = 5;
-        public const int TypeMaxLength = 30;
         public const int DescriptionMinLength = 25;
         public const int DescriptionMaxLenght = 100;
-        public const int CostMinValue = 30;
-        public const int CostMaxValue = 2000;
     }
 }
 

@@ -16,82 +16,83 @@ public class RepairmentService : IRepairmentService
         this.dbContext = dbContext;
     }
 
-    public int CalculateTheCostOfRepairmanetAsync(CreateRepairmentViewModel model)
+    public int CalculateTheCostOfRepairmanetAsync(int type, int quantity)
     {
-        switch (model.Type)
+        int pricePerOne = 0;
+        switch (type)
         {
             case 0:
-                model.Cost = 200;
+                pricePerOne = 200;
                 break;
             case 1:
-                model.Cost = 250;
+                pricePerOne = 250;
                 break;
             case 2:
-                model.Cost = 50;
+                pricePerOne = 50;
                 break;
             case 3:
-                model.Cost = 50;
+                pricePerOne = 50;
                 break;
             case 4:
-                model.Cost = 75;
+                pricePerOne = 75;
                 break;
             case 5:
-                model.Cost = 90;
+                pricePerOne = 90;
                 break;
             case 6:
-                model.Cost = 90;
+                pricePerOne = 90;
                 break;
             case 7:
-                model.Cost = 80;
+                pricePerOne = 80;
                 break;
             case 8:
-                model.Cost = 470;
+                pricePerOne = 470;
                 break;
             case 9:
-                model.Cost = 500;
+                pricePerOne = 500;
                 break;
             case 10:
-                model.Cost = 1200;
+                pricePerOne = 1200;
                 break;
             case 11:
-                model.Cost = 2480;
+                pricePerOne = 2480;
                 break;
             case 12:
-                model.Cost = 25;
+                pricePerOne = 25;
                 break;
             case 13:
-                model.Cost = 15;
+                pricePerOne = 15;
                 break;
             case 14:
-                model.Cost = 300;
+                pricePerOne = 300;
                 break;
             case 15:
-                model.Cost = 320;
+                pricePerOne = 320;
                 break;
             case 16:
-                model.Cost = 700;
+                pricePerOne = 700;
                 break;
             case 17:
-                model.Cost = 520;
+                pricePerOne = 520;
                 break;
             case 18:
-                model.Cost = 490;
+                pricePerOne = 490;
                 break;
             case 19:
-                model.Cost = 50;
+                pricePerOne = 50;
                 break;
             case 20:
-                model.Cost = 60;
+                pricePerOne = 60;
                 break;
             case 21:
-                model.Cost = 90;
+                pricePerOne = 90;
                 break;
             case 22:
-                model.Cost = 110;
+                pricePerOne = 110;
                 break;
         }
 
-        return model.Quantity * model.Cost;
+        return quantity * pricePerOne;
     }
 
     public async Task<IEnumerable<AllRepairmentsViewModel>> GetAllRepairmentsByUserIdAsync(string userId)
@@ -110,6 +111,24 @@ public class RepairmentService : IRepairmentService
             .ToArrayAsync();
     }
 
+    public async Task<bool> IsTrailerConditionValidAsync(string trailerId)
+    {
+        Trailer? trailer = await this.dbContext.Trailers
+            .FirstOrDefaultAsync(x => x.Id.ToString().Equals(trailerId));
+
+        if (trailer != null)
+        {
+            if (trailer.Condition >= TrailerCondition.NeedOfService)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
     public async Task<bool> IsTruckConditionValidAsync(string truckId)
     {
         Truck? truck = await this.dbContext.Trucks
@@ -121,6 +140,30 @@ public class RepairmentService : IRepairmentService
         }
 
         return false;
+    }
+
+    public async Task RepairTrailerAsync(string mechanicId, CreateRepairmentOfTrailerViewModel model)
+    {
+        Trailer? trailer = await this.dbContext.Trailers
+            .FindAsync(model.TrailerId);
+
+        if (trailer != null)
+        {
+            trailer.Condition -= 1;
+        }
+
+        Repairment repairment = new Repairment()
+        {
+            Type = (RepairmentAvailableTypes)model.Type,
+            Description = model.Description,
+            Quantity = model.Quantity,
+            Cost = model.Cost,
+            MadeOn = trailer!.Category.ToString(),
+            MechanicId = Guid.Parse(mechanicId)
+        };
+
+        await this.dbContext.Repairments.AddAsync(repairment);
+        await this.dbContext.SaveChangesAsync();
     }
 
     public async Task RepairTruckAsync(string mechanicId, CreateRepairmentViewModel model)

@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using VAndDCargoes.Data;
 using VAndDCargoes.Data.Models;
+using VAndDCargoes.Data.Models.Enumerations;
 using VAndDCargoes.Services.Contracts;
+using VAndDCargoes.Services.Models;
 using VAndDCargoes.Web.ViewModels.Course;
 
 namespace VAndDCargoes.Services;
@@ -15,7 +17,7 @@ public class CourseService : ICourseService
         this.dbContext = dbContext;
     }
 
-    public async Task<decimal> FinishCourseAsync(string userId, string courseId)
+    public async Task<DeleteCourseModel> FinishCourseAsync(string userId, string courseId)
     {
         Driver? driver = await this.dbContext.Drivers
             .FirstOrDefaultAsync(x => x.UserId.ToString().Equals(userId));
@@ -31,18 +33,23 @@ public class CourseService : ICourseService
                 course.Truck.TraveledDistance += course.Distance;
                 course.Truck.Condition += 1;
 
-                this.dbContext.DriversCargoes.Remove(driver.DriversCargoes.FirstOrDefault(x => x.CargoId.Equals(course.CargoId)));
+                this.dbContext.DriversCargoes.Remove(driver.DriversCargoes.FirstOrDefault(x => x.CargoId.Equals(course.CargoId))!);
 
                 driver.Courses.Remove(course);
 
                 this.dbContext.Courses.Remove(course);
+
                 await this.dbContext.SaveChangesAsync();
 
-                return course.Reward;
+                return new DeleteCourseModel()
+                {
+                    CargoId = course.CargoId.ToString(),
+                    Reward = course.Reward
+                };
             }
         }
 
-        return 0m;
+        return null!;
     }
 
     public async Task<IEnumerable<AllCoursesViewModel>> GetAllCoursesByUserIdAsync(string userId)
@@ -119,8 +126,19 @@ public class CourseService : ICourseService
         return false;
     }
 
-    public async Task TakeTheCourseAsync(string userId, StartCourseViewModel model)
+    public async Task<bool> TakeTheCourseAsync(string userId, StartCourseViewModel model)
     {
+        Truck? truck = await this.dbContext.Trucks
+            .FirstOrDefaultAsync(x => x.Id.ToString().Equals(model.TruckId));
+
+        if (truck != null)
+        {
+            if (truck.Condition >= TruckCondition.NeedOfService)
+            {
+                return false;
+            }
+        }
+
         Driver? driver = await this.dbContext.Drivers
             .FirstOrDefaultAsync(x => x.UserId.ToString().Equals(userId));
 
@@ -141,6 +159,8 @@ public class CourseService : ICourseService
             await this.dbContext.Courses.AddAsync(course);
             await this.dbContext.SaveChangesAsync();
         }
+
+        return true;
     }
 }
 

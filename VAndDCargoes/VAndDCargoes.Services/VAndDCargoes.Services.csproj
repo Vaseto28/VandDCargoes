@@ -17,5 +17,6 @@
     <ProjectReference Include="..\VAndDCargoes.Data.Models\VAndDCargoes.Data.Models.csproj" />
     <ProjectReference Include="..\VAndDCargoes.Web.Models\VAndDCargoes.Web.ViewModels.csproj" />
     <ProjectReference Include="..\VAndDCargoes.Common\VAndDCargoes.Common.csproj" />
+    <ProjectReference Include="..\VAndDCargoes.Services.Models\VAndDCargoes.Services.Models.csproj" />
   </ItemGroup>
 </Project>

@@ -32,6 +32,7 @@ public class CourseService : ICourseService
                 driver.Ballance += course.Reward;
                 course.Truck.TraveledDistance += course.Distance;
                 course.Truck.Condition += 1;
+                course.Trailer.Condition += 1;
 
                 this.dbContext.DriversCargoes.Remove(driver.DriversCargoes.FirstOrDefault(x => x.CargoId.Equals(course.CargoId))!);
 
@@ -69,7 +70,7 @@ public class CourseService : ICourseService
             .ToArrayAsync();
     }
 
-    public async Task<bool> IsTheCargoAvailable(string userId, string cargoId)
+    public async Task<bool> IsCargoAvailableByIdAsync(string userId, string cargoId)
     {
         Driver? driver = await this.dbContext.Drivers
             .FirstOrDefaultAsync(x => x.UserId.ToString().Equals(userId));
@@ -88,7 +89,7 @@ public class CourseService : ICourseService
         return false;
     }
 
-    public async Task<bool> IsTheTrailerAvailableAsync(string userId, string trailerId)
+    public async Task<bool> IsTrailerAvailableByIdAsync(string userId, string trailerId)
     {
         Driver? driver = await this.dbContext.Drivers
             .FirstOrDefaultAsync(x => x.UserId.ToString().Equals(userId));
@@ -107,7 +108,7 @@ public class CourseService : ICourseService
         return false;
     }
 
-    public async Task<bool> IsTheTruckAvailableAsync(string userId, string truckId)
+    public async Task<bool> IsTruckAvailableByIdAsync(string userId, string truckId)
     {
         Driver? driver = await this.dbContext.Drivers
             .FirstOrDefaultAsync(x => x.UserId.ToString().Equals(userId));
@@ -138,6 +139,25 @@ public class CourseService : ICourseService
                 return false;
             }
         }
+        else
+        {
+            return false;
+        }
+
+        Trailer? trailer = await this.dbContext.Trailers
+            .FirstOrDefaultAsync(x => x.Id.ToString().Equals(model.TrailerId));
+
+        if (trailer != null)
+        {
+            if (trailer.Condition >= TrailerCondition.NeedOfService)
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
 
         Driver? driver = await this.dbContext.Drivers
             .FirstOrDefaultAsync(x => x.UserId.ToString().Equals(userId));
@@ -158,6 +178,10 @@ public class CourseService : ICourseService
 
             await this.dbContext.Courses.AddAsync(course);
             await this.dbContext.SaveChangesAsync();
+        }
+        else
+        {
+            return false;
         }
 
         return true;

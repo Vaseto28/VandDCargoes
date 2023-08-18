@@ -63,9 +63,9 @@ public class CourseController : BaseController
             return View(model);
         }
 
-        if (!await this.courseService.IsTheTruckAvailableAsync(userId, model.TruckId) ||
-            !await this.courseService.IsTheTrailerAvailableAsync(userId, model.TrailerId) ||
-            !await this.courseService.IsTheCargoAvailable(userId, model.CargoId))
+        if (!await this.courseService.IsTruckAvailableByIdAsync(userId, model.TruckId) ||
+            !await this.courseService.IsTrailerAvailableByIdAsync(userId, model.TrailerId) ||
+            !await this.courseService.IsCargoAvailableByIdAsync(userId, model.CargoId))
         {
             TempData[ErrorMessage] = "Selected truck, trailer or cargo must be available in order to take a course!";
             return View(model);
@@ -112,7 +112,7 @@ public class CourseController : BaseController
         }
         catch (Exception)
         {
-            TempData[ErrorMessage] = "Something happend while finishing the course!";
+            TempData[ErrorMessage] = "Something happend while finishing the course! Please try again later or contact support.";
             return RedirectToAction("MyCourses", "Course");
         }
 

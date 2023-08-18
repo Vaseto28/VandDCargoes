@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using VAndDCargoes.Data;
-using VAndDCargoes.Data.Models;
 using VAndDCargoes.Services.Contracts;
-using VAndDCargoes.Web.ViewModels.Driver;
 using static VAndDCargoes.Services.Tests.DbSeeder;
 
 namespace VAndDCargoes.Services.Tests;

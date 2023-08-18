@@ -5,11 +5,11 @@ namespace VAndDCargoes.Services.Contracts;
 
 public interface ICourseService
 {
-    Task<bool> IsTheTruckAvailableAsync(string userId, string truckId);
+    Task<bool> IsTruckAvailableByIdAsync(string userId, string truckId);
 
-    Task<bool> IsTheTrailerAvailableAsync(string userId, string trailerId);
+    Task<bool> IsTrailerAvailableByIdAsync(string userId, string trailerId);
 
-    Task<bool> IsTheCargoAvailable(string userId, string cargoId);
+    Task<bool> IsCargoAvailableByIdAsync(string userId, string cargoId);
 
     Task<bool> TakeTheCourseAsync(string userId, StartCourseViewModel model);
 
